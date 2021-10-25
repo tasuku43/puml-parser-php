@@ -1,0 +1,8 @@
+@startuml
+package Lexer/Arrow {
+    interface PumlTokenizer
+    abstract class ArrowTokenizer implements PumlTokenizer
+    class LeftArrowTokenizer extends ArrowTokenizer
+    class RightArrowTokenizer extends ArrowTokenizer
+}
+@enduml
