@@ -1,0 +1,14 @@
+@startuml
+class Class
+abstract class AbstractClass
+interface Interface
+
+AbstractClass <|-- Class
+AbstractClass ..|> Interface
+
+package Package {
+    interface Interface2
+    abstract class AbstractClass2 implements Interface2
+    class Class2 extends AbstractClass2
+}
+@enduml
