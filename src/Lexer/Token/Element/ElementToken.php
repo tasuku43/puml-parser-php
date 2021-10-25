@@ -12,7 +12,7 @@ class ElementToken implements Token
 
     private const CLASS_          = 'class';
     private const ABSTRACT_CLASS_ = 'abstract class';
-    private const ABSTRACT_       = 'abstract class';
+    private const ABSTRACT_       = 'abstract';
     private const INTERFACE_      = 'interface';
     private const PACKAGE_        = 'package';
     private const NAMESPACE_      = 'namespace';
