@@ -9,9 +9,6 @@ class Lexer
 {
     use TokenizeSupport;
 
-    public const PUML_START = '@startuml';
-    public const PUML_END   = '@enduml';
-
     public const SKIP_STRINGS = [
         ' ',
         "\n",
