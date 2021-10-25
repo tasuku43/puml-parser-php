@@ -12,12 +12,13 @@ use PumlParser\Lexer\Token\CurlyBracket\OpenCurlyBracketToken;
 use PumlParser\Lexer\Token\Element\ElementToken;
 use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
 use PumlParser\Lexer\Token\End\EndToken;
+use PumlParser\Lexer\Token\Extends\ExtendsToken;
 use PumlParser\Lexer\Token\Start\StartToken;
 use PumlParser\Lexer\Token\Token;
 
 class LexerTest extends TestCase
 {
-    public function test2(): void
+    public function testGetNextToken(): void
     {
         $lexer = Lexer::fromSourceFile(__DIR__ . '/test.puml');
 
@@ -48,6 +49,21 @@ class LexerTest extends TestCase
         $this->assertToken($lexer->getNextToken(), CloseCurlyBracketToken::class, '}');
 
         self::assertInstanceOf(EndToken::class, $lexer->getNextToken());
+    }
+
+    public function testGetNextToken2(): void
+    {
+        $lexer = Lexer::fromSourceFile(__DIR__ . '/test2.puml');
+
+        self::assertInstanceOf(StartToken::class, $lexer->getNextToken());
+
+        $this->assertToken($lexer->getNextToken(), ElementToken::class, 'abstract class');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'AbstractClass');
+
+        $this->assertToken($lexer->getNextToken(), ElementToken::class, 'class');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Class');
+        $this->assertToken($lexer->getNextToken(), ExtendsToken::class, 'extends');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'AbstractClass');
     }
 
     private function assertToken(Token $token, string $class, string $value): void

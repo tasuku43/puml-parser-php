@@ -1,0 +1,4 @@
+@startuml
+abstract class AbstractClass
+class Class extends AbstractClass
+@enduml
