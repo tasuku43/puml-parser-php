@@ -13,7 +13,6 @@ class Lexer
     public const PUML_END   = '@enduml';
 
     public const SKIP_STRINGS = [
-        self::PUML_START,
         ' ',
         "\n",
         "\r",
