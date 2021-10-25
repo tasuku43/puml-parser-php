@@ -7,6 +7,7 @@ use PumlParser\Lexer\Token\Arrow\ArrowTokenizer;
 use PumlParser\Lexer\Token\CurlyBracket\CurlyBracketTokenizer;
 use PumlParser\Lexer\Token\Element\ElementTokenizer;
 use PumlParser\Lexer\Token\ElementValue\ElementValueTokenizer;
+use PumlParser\Lexer\Token\End\EofTokenizer;
 use PumlParser\Lexer\Token\RoundBracket\RoundBracketTokenizer;
 
 class PumlTokenizerResolver
@@ -29,7 +30,8 @@ class PumlTokenizerResolver
             new ElementTokenizer(),
             new ArrowTokenizer(),
             new CurlyBracketTokenizer(),
-            new RoundBracketTokenizer()
+            new RoundBracketTokenizer(),
+            new EofTokenizer()
         ];
     }
 }

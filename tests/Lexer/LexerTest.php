@@ -11,7 +11,7 @@ use PumlParser\Lexer\Token\CurlyBracket\CloseCurlyBracketToken;
 use PumlParser\Lexer\Token\CurlyBracket\OpenCurlyBracketToken;
 use PumlParser\Lexer\Token\Element\ElementToken;
 use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
-use PumlParser\Lexer\Token\EofToken;
+use PumlParser\Lexer\Token\End\EndToken;
 use PumlParser\Lexer\Token\Token;
 
 class LexerTest extends TestCase
@@ -44,7 +44,7 @@ class LexerTest extends TestCase
         $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'ClassInPackage');
         $this->assertToken($lexer->getNextToken(), CloseCurlyBracketToken::class, '}');
 
-        self::assertInstanceOf(EofToken::class, $lexer->getNextToken());
+        self::assertInstanceOf(EndToken::class, $lexer->getNextToken());
     }
 
     private function assertToken(Token $token, string $class, string $value): void

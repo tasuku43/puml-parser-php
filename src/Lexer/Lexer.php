@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer;
 
-use PumlParser\Lexer\Token\EofToken;
 use PumlParser\Lexer\Token\Token;
 
 class Lexer
@@ -47,10 +46,6 @@ class Lexer
     public function getNextToken(): Token
     {
         while ($contents = $this->currentToEndContents()) {
-            if ($contents === self::PUML_END) {
-                return new EofToken();
-            }
-
             if ($start_string = $this->contentsStartsWith($contents, self::SKIP_STRINGS)) {
                 $this->position += strlen($start_string);
                 continue;
