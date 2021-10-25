@@ -45,31 +45,23 @@ class LexerTest extends TestCase
         $this->assertToken($lexer->getNextToken(), ElementToken::class, 'package');
         $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Package');
         $this->assertToken($lexer->getNextToken(), OpenCurlyBracketToken::class, '{');
+
+        $this->assertToken($lexer->getNextToken(), ElementToken::class, 'interface');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Interface2');
+
+        $this->assertToken($lexer->getNextToken(), ElementToken::class, 'abstract class');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'AbstractClass2');
+        $this->assertToken($lexer->getNextToken(), ImplementsToken::class, 'implements');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Interface2');
+
         $this->assertToken($lexer->getNextToken(), ElementToken::class, 'class');
-        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'ClassInPackage');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Class2');
+        $this->assertToken($lexer->getNextToken(), ExtendsToken::class, 'extends');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'AbstractClass2');
+
         $this->assertToken($lexer->getNextToken(), CloseCurlyBracketToken::class, '}');
 
         self::assertInstanceOf(EndToken::class, $lexer->getNextToken());
-    }
-
-    public function testGetNextToken2(): void
-    {
-        $lexer = Lexer::fromSourceFile(__DIR__ . '/test2.puml');
-
-        self::assertInstanceOf(StartToken::class, $lexer->getNextToken());
-
-        $this->assertToken($lexer->getNextToken(), ElementToken::class, 'interface');
-        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Interface');
-
-        $this->assertToken($lexer->getNextToken(), ElementToken::class, 'abstract class');
-        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'AbstractClass');
-        $this->assertToken($lexer->getNextToken(), ImplementsToken::class, 'implements');
-        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Interface');
-
-        $this->assertToken($lexer->getNextToken(), ElementToken::class, 'class');
-        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Class');
-        $this->assertToken($lexer->getNextToken(), ExtendsToken::class, 'extends');
-        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'AbstractClass');
     }
 
     private function assertToken(Token $token, string $class, string $value): void

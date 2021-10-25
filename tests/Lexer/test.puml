@@ -7,6 +7,8 @@ AbstractClass <|-- Class
 AbstractClass ..|> Interface
 
 package Package {
-    class ClassInPackage
+    interface Interface2
+    abstract class AbstractClass2 implements Interface2
+    class Class2 extends AbstractClass2
 }
 @enduml
