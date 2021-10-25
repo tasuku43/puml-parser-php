@@ -1,0 +1,30 @@
+{
+    "name": "task2021/puml-parser-php",
+    "description": "This is a php parser for plantuml source file.",
+    "type": "library",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "keywords": [
+        "php",
+        "parser",
+        "plantuml",
+        "puml"
+    ],
+    "authors": [
+        {
+            "name": "task2021"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PumlParser\\": "src/",
+            "PumlParser\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "require": {
+        "ext-mbstring": "*"
+    }
+}
