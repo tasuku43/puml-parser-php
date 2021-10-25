@@ -1,4 +1,5 @@
 @startuml
-abstract class AbstractClass
+interface Interface
+abstract class AbstractClass implements Interface
 class Class extends AbstractClass
 @enduml

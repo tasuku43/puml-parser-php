@@ -13,6 +13,7 @@ use PumlParser\Lexer\Token\Element\ElementToken;
 use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
 use PumlParser\Lexer\Token\End\EndToken;
 use PumlParser\Lexer\Token\Extends\ExtendsToken;
+use PumlParser\Lexer\Token\Implements\ImplementsToken;
 use PumlParser\Lexer\Token\Start\StartToken;
 use PumlParser\Lexer\Token\Token;
 
@@ -57,8 +58,13 @@ class LexerTest extends TestCase
 
         self::assertInstanceOf(StartToken::class, $lexer->getNextToken());
 
+        $this->assertToken($lexer->getNextToken(), ElementToken::class, 'interface');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Interface');
+
         $this->assertToken($lexer->getNextToken(), ElementToken::class, 'abstract class');
         $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'AbstractClass');
+        $this->assertToken($lexer->getNextToken(), ImplementsToken::class, 'implements');
+        $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Interface');
 
         $this->assertToken($lexer->getNextToken(), ElementToken::class, 'class');
         $this->assertToken($lexer->getNextToken(), ElementValueToken::class, 'Class');
