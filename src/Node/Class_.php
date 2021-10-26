@@ -3,31 +3,20 @@ declare(strict_types=1);
 
 namespace PumlParser\Node;
 
-class Class_ implements Node
+final class Class_ extends ClassLike
 {
-    public function toArray(): array
+    public function getType(): string
     {
-        return [
-            'Class' => [
-                'Name' => 'LeftArrowTokenizer',
-                'Package' => 'Lexer/Arrow',
-                'Parents' => [
-                    'AbstractClass' => [
-                        'Name' => 'ArrowTokenizer',
-                        'Package' => 'Lexer/Arrow',
-                        'Parents' => [],
-                        'Interfaces' => [
-                            'Interface' => [
-                                'Neme' => 'PumlTokenizer',
-                                'Package' => 'Lexer/Arrow',
-                                'Parents' => [],
-                                'Interfaces' => [],
-                            ]
-                        ]
-                    ]
-                ],
-                'Interfaces' => []
-            ]
-        ];
+        return 'Class';
+    }
+
+    public function extends(Class_|AbstractClass_ $class): void
+    {
+        $this->parents->add($class);
+    }
+
+    public function implements(Interface_ $interface): void
+    {
+        $this->interfaces->add($interface);
     }
 }

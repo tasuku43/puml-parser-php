@@ -17,6 +17,16 @@ class Parser
 
     public function parse(): Nodes
     {
-        return new Nodes(new Class_(), new AbstractClass_(), new Interface_());
+        $package = 'Lexer/Arrow';
+
+        $interface = new Interface_('PumlTokenizer', $package);
+
+        $abstractClass = new AbstractClass_('ArrowTokenizer', $package);
+        $abstractClass->implements($interface);
+
+        $class = new Class_('LeftArrowTokenizer', $package);
+        $class->extends($abstractClass);
+
+        return new Nodes($class, $abstractClass, $interface);
     }
 }

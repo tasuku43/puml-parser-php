@@ -1,20 +1,17 @@
 <?php
-
+declare(strict_types=1);
 
 namespace PumlParser\Node;
 
-
-class Interface_ implements Node
+final class Interface_ extends ClassLike
 {
-    public function toArray(): array
+    public function getType(): string
     {
-        return [
-            'Interface' => [
-                'Name' => 'PumlTokenizer',
-                'Package' => 'Lexer/Arrow',
-                'Parents' => [],
-                'Interfaces' => []
-            ]
-        ];
+        return 'Interface';
+    }
+
+    public function extends(Interface_ $interface): void
+    {
+        $this->parents->add($interface);
     }
 }

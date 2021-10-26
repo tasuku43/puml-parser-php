@@ -23,16 +23,20 @@ class ParserTest extends TestCase
                     'Name' => 'LeftArrowTokenizer',
                     'Package' => 'Lexer/Arrow',
                     'Parents' => [
-                        'AbstractClass' => [
-                            'Name' => 'ArrowTokenizer',
-                            'Package' => 'Lexer/Arrow',
-                            'Parents' => [],
-                            'Interfaces' => [
-                                'Interface' => [
-                                    'Neme' => 'PumlTokenizer',
-                                    'Package' => 'Lexer/Arrow',
-                                    'Parents' => [],
-                                    'Interfaces' => [],
+                        [
+                            'AbstractClass' => [
+                                'Name' => 'ArrowTokenizer',
+                                'Package' => 'Lexer/Arrow',
+                                'Parents' => [],
+                                'Interfaces' => [
+                                    [
+                                        'Interface' => [
+                                            'Name' => 'PumlTokenizer',
+                                            'Package' => 'Lexer/Arrow',
+                                            'Parents' => [],
+                                            'Interfaces' => [],
+                                        ]
+                                    ],
                                 ]
                             ]
                         ]
@@ -44,13 +48,15 @@ class ParserTest extends TestCase
                 'AbstractClass' => [
                     'Name' => 'ArrowTokenizer',
                     'Package' => 'Lexer/Arrow',
-                    'Parents' => '',
+                    'Parents' => [],
                     'Interfaces' => [
-                        'Interface' => [
-                            'Name' => 'PumlTokenizer',
-                            'Package' => 'Lexer/Arrow',
-                            'Parents' => [],
-                            'Interfaces' => []
+                        [
+                            'Interface' => [
+                                'Name' => 'PumlTokenizer',
+                                'Package' => 'Lexer/Arrow',
+                                'Parents' => [],
+                                'Interfaces' => []
+                            ]
                         ]
                     ]
                 ]
