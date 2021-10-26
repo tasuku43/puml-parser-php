@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace PumlParser\Parser;
 
 use PumlParser\Lexer\Lexer;
-use PumlParser\Node\Node;
+use PumlParser\Node\Interface_;
+use PumlParser\Node\Nodes;
 
 class Parser
 {
@@ -12,7 +13,8 @@ class Parser
     {
     }
 
-    public function parse(): Node
+    public function parse(): Nodes
     {
+        return new Nodes(new Interface_());
     }
 }
