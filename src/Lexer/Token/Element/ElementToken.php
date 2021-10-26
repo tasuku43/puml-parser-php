@@ -6,21 +6,19 @@ namespace PumlParser\Lexer\Token\Element;
 use PumlParser\Lexer\Token\Token;
 use PumlParser\Lexer\Token\TokenSupport;
 
-class ElementToken implements Token
+abstract class ElementToken implements Token
 {
-    use TokenSupport;
-
-    private const CLASS_          = 'class';
-    private const ABSTRACT_CLASS_ = 'abstract class';
-    private const ABSTRACT_       = 'abstract';
-    private const INTERFACE_      = 'interface';
-    private const PACKAGE_        = 'package';
-    private const NAMESPACE_      = 'namespace';
-    private const ENUM_           = 'enum';
-    private const ENTITY_         = 'entity';
-    private const CIRCLE_         = 'circle';
-    private const DIAMOND_        = 'diamond';
-    private const ANNOTATION_     = 'annotation';
+    public const CLASS_          = 'class';
+    public const ABSTRACT_CLASS_ = 'abstract class';
+    public const ABSTRACT_       = 'abstract';
+    public const INTERFACE_      = 'interface';
+    public const PACKAGE_        = 'package';
+    public const NAMESPACE_      = 'namespace';
+    public const ENUM_           = 'enum';
+    public const ENTITY_         = 'entity';
+    public const CIRCLE_         = 'circle';
+    public const DIAMOND_        = 'diamond';
+    public const ANNOTATION_     = 'annotation';
 
     /**
      * @return string[]
