@@ -18,65 +18,43 @@ class ParserTest extends TestCase
         self::assertInstanceOf(Node::class, $ast);
 
         self::assertSame([
-//            [
-//                'Class' => [
-//                    'Name' => 'LeftArrowTokenizer',
-//                    'Package' => 'Lexer/Arrow',
-//                    'Parents' => [
-//                        'AbstractClass' => [
-//                            'Name' => 'ArrowTokenizer',
-//                            'Package' => 'Lexer/Arrow',
-//                            'Parents' => [],
-//                            'Interfaces' => [
-//                                'Interface' => [
-//                                    'Neme' => 'PumlTokenizer',
-//                                    'Package' => 'Lexer/Arrow',
-//                                    'Parents' => [],
-//                                    'Interfaces' => [],
-//                                ]
-//                            ]
-//                        ]
-//                    ],
-//                    'Interfaces' => []
-//                ]
-//            ],
-//            [
-//                'Class' => [
-//                    'Name' => 'RightArrowTokenizer',
-//                    'Package' => 'Lexer/Arrow',
-//                    'Parents' => [
-//                        'AbstractClass' => [
-//                            'Name' => 'ArrowTokenizer',
-//                            'Package' => 'Lexer/Arrow',
-//                            'Parents' => [],
-//                            'Interfaces' => [
-//                                'Interface' => [
-//                                    'Name' => 'PumlTokenizer',
-//                                    'Package' => 'Lexer/Arrow',
-//                                    'Parents' => [],
-//                                    'Interfaces' => [],
-//                                ]
-//                            ]
-//                        ]
-//                    ],
-//                    'Interfaces' => []
-//                ],
-//            ],
-//            [
-//                'AbstractClass' => [
-//                    'Name' => 'ArrowTokenizer',
-//                    'Package' => 'Lexer/Arrow',
-//                    'Parents' => '',
-//                    'Interfaces' => [
-//                        'Interface' => [
-//                            'Name' => 'PumlTokenizer',
-//                            'Package' => 'Lexer/Arrow',
-//                            'Parents' => [],
-//                            'Interfaces' => []
-//                        ]
-//                    ]
-//                ]
-//            ],
+            [
+                'Class' => [
+                    'Name' => 'LeftArrowTokenizer',
+                    'Package' => 'Lexer/Arrow',
+                    'Parents' => [
+                        'AbstractClass' => [
+                            'Name' => 'ArrowTokenizer',
+                            'Package' => 'Lexer/Arrow',
+                            'Parents' => [],
+                            'Interfaces' => [
+                                'Interface' => [
+                                    'Neme' => 'PumlTokenizer',
+                                    'Package' => 'Lexer/Arrow',
+                                    'Parents' => [],
+                                    'Interfaces' => [],
+                                ]
+                            ]
+                        ]
+                    ],
+                    'Interfaces' => []
+                ]
+            ],
+            [
+                'AbstractClass' => [
+                    'Name' => 'ArrowTokenizer',
+                    'Package' => 'Lexer/Arrow',
+                    'Parents' => '',
+                    'Interfaces' => [
+                        'Interface' => [
+                            'Name' => 'PumlTokenizer',
+                            'Package' => 'Lexer/Arrow',
+                            'Parents' => [],
+                            'Interfaces' => []
+                        ]
+                    ]
+                ]
+            ],
             [
                 'Interface' => [
                     'Name' => 'PumlTokenizer',
