@@ -13,7 +13,8 @@ class ArrowTokenizer implements PumlTokenizer
 
     public function parseable(string $contents): bool
     {
-        return (bool) $this->contentsStartsWith($contents, ArrowToken::symbols());
+        return preg_match(LeftArrowToken::PATTERN, $contents) === 1
+            || preg_match(RightArrowToken::PATTERN, $contents) === 1;
     }
 
     /**
@@ -21,9 +22,13 @@ class ArrowTokenizer implements PumlTokenizer
      */
     public function parseForward(string $contents): LeftArrowToken|RightArrowToken
     {
-        return match ($contents[0]) {
-            '<', 'o', '*' => new LeftArrowToken($this->pregMatchContents($contents, LeftArrowToken::PATTERN)),
-            '.', '-'      => new RightArrowToken($this->pregMatchContents($contents, RightArrowToken::PATTERN)),
+        return match (true) {
+            preg_match(LeftArrowToken::PATTERN, $contents) === 1 => new LeftArrowToken(
+                $this->pregMatchContents($contents, LeftArrowToken::PATTERN)
+            ),
+            preg_match(RightArrowToken::PATTERN, $contents) === 1 => new RightArrowToken(
+                $this->pregMatchContents($contents, RightArrowToken::PATTERN)
+            ),
             default       => throw new TokenException()
         };
     }
