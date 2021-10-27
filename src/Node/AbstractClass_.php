@@ -9,14 +9,4 @@ final class AbstractClass_ extends ClassLike
     {
         return 'AbstractClass';
     }
-
-    public function extends(Class_|AbstractClass_ $class): void
-    {
-        $this->parents->add($class);
-    }
-
-    public function implements(Interface_ $interface): void
-    {
-        $this->interfaces->add($interface);
-    }
 }

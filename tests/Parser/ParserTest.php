@@ -19,6 +19,31 @@ class ParserTest extends TestCase
 
         self::assertSame([
             [
+                'Interface' => [
+                    'Name' => 'PumlTokenizer',
+                    'Package' => 'Lexer/Arrow',
+                    'Parents' => [],
+                    'Interfaces' => []
+                ]
+            ],
+            [
+                'AbstractClass' => [
+                    'Name' => 'ArrowTokenizer',
+                    'Package' => 'Lexer/Arrow',
+                    'Parents' => [],
+                    'Interfaces' => [
+                        [
+                            'Interface' => [
+                                'Name' => 'PumlTokenizer',
+                                'Package' => 'Lexer/Arrow',
+                                'Parents' => [],
+                                'Interfaces' => []
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
                 'Class' => [
                     'Name' => 'LeftArrowTokenizer',
                     'Package' => 'Lexer/Arrow',
@@ -41,31 +66,6 @@ class ParserTest extends TestCase
                             ]
                         ]
                     ],
-                    'Interfaces' => []
-                ]
-            ],
-            [
-                'AbstractClass' => [
-                    'Name' => 'ArrowTokenizer',
-                    'Package' => 'Lexer/Arrow',
-                    'Parents' => [],
-                    'Interfaces' => [
-                        [
-                            'Interface' => [
-                                'Name' => 'PumlTokenizer',
-                                'Package' => 'Lexer/Arrow',
-                                'Parents' => [],
-                                'Interfaces' => []
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            [
-                'Interface' => [
-                    'Name' => 'PumlTokenizer',
-                    'Package' => 'Lexer/Arrow',
-                    'Parents' => [],
                     'Interfaces' => []
                 ]
             ]

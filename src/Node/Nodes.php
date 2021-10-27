@@ -29,4 +29,20 @@ class Nodes implements Node
     {
         $this->nodes = array_merge($this->nodes, [$node]);
     }
+
+    public function last(): Node
+    {
+        return $this->nodes[array_key_last($this->nodes)];
+    }
+
+    public function searchByName(string $name): ?ClassLike
+    {
+        foreach ($this->nodes as $node) {
+            assert($node instanceof ClassLike);
+
+            if ($node->getName() === $name) return $node;
+        }
+
+        return null;
+    }
 }

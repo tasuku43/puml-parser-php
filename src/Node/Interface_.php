@@ -9,9 +9,5 @@ final class Interface_ extends ClassLike
     {
         return 'Interface';
     }
-
-    public function extends(Interface_ $interface): void
-    {
-        $this->parents->add($interface);
-    }
 }
+

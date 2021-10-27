@@ -16,6 +16,21 @@ abstract class ClassLike implements Node
 
     abstract public function getType(): string;
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function extends(ClassLike $class): void
+    {
+        $this->parents->add($class);
+    }
+
+    public function implements(ClassLike $class): void
+    {
+        $this->interfaces->add($class);
+    }
+
     public function toArray(): array
     {
         return [
