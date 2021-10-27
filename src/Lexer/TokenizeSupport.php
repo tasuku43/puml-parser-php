@@ -29,7 +29,7 @@ trait TokenizeSupport
 
     private function isEndOfElementValue(string $ch): bool
     {
-        foreach (array_merge(ArrowToken::symbols(), Lexer::SKIP_STRINGS) as $end_ch) {
+        foreach (Lexer::SKIP_STRINGS as $end_ch) {
             if ($ch === $end_ch) return true;
         }
 

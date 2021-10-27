@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer;
 
+use PumlParser\Lexer\Token\Element\ElementToken;
+use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
+use PumlParser\Lexer\Token\Exception\TokenException;
 use PumlParser\Lexer\Token\Token;
 
 class Lexer
@@ -37,6 +40,34 @@ class Lexer
         });
 
         return new self(implode($contents_array));
+    }
+
+    /**
+     * @throws TokenException
+     */
+    public function getNextElementToken(): ElementToken
+    {
+        $token = $this->getNextToken();
+
+        if ($token instanceof ElementToken) {
+            return $token;
+        }
+
+        throw new TokenException();
+    }
+
+    /**
+     * @throws TokenException
+     */
+    public function getNextElementValueToken(): ElementValueToken
+    {
+        $token = $this->getNextToken();
+
+        if ($token instanceof ElementValueToken) {
+            return $token;
+        }
+
+        throw new TokenException();
     }
 
     public function getNextToken(): Token

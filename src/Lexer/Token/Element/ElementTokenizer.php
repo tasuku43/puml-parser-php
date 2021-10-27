@@ -21,10 +21,12 @@ class ElementTokenizer implements PumlTokenizer
      */
     public function parseForward(string $contents): ElementToken
     {
-        foreach (ElementToken::symbols() as $symbol) {
-            if (str_starts_with($contents, $symbol)) return new ElementToken($symbol);
-        }
-
-        throw new TokenException();
+        return match (true) {
+            str_starts_with($contents, ElementToken::PACKAGE_) => new PackageToken(),
+            str_starts_with($contents, ElementToken::CLASS_) => new ClassToken(),
+            str_starts_with($contents, ElementToken::ABSTRACT_CLASS_) => new AbstractClassToken(),
+            str_starts_with($contents, ElementToken::INTERFACE_) => new InterfaceToken(),
+            default => throw new TokenException()
+        };
     }
 }
