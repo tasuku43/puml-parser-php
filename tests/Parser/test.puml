@@ -5,5 +5,9 @@ package Lexer {
         abstract class ArrowTokenizer implements PumlTokenizer
         class LeftArrowTokenizer extends ArrowTokenizer
     }
+    package Lexer/CurlyBracket {
+        abstract class CurlyBracketTokenizer implements PumlTokenizer
+        class OpenCurlyBracketToken extends CurlyBracketTokenizer
+    }
 }
 @enduml

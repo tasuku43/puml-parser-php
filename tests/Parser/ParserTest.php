@@ -68,6 +68,49 @@ class ParserTest extends TestCase
                     ],
                     'Interfaces' => []
                 ]
+            ],
+            [
+                'AbstractClass' => [
+                    'Name' => 'CurlyBracketTokenizer',
+                    'Package' => 'Lexer/CurlyBracket',
+                    'Parents' => [],
+                    'Interfaces' => [
+                        [
+                            'Interface' => [
+                                'Name' => 'PumlTokenizer',
+                                'Package' => 'Lexer',
+                                'Parents' => [],
+                                'Interfaces' => []
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'Class' => [
+                    'Name' => 'OpenCurlyBracketToken',
+                    'Package' => 'Lexer/CurlyBracket',
+                    'Parents' => [
+                        [
+                            'AbstractClass' => [
+                                'Name' => 'CurlyBracketTokenizer',
+                                'Package' => 'Lexer/CurlyBracket',
+                                'Parents' => [],
+                                'Interfaces' => [
+                                    [
+                                        'Interface' => [
+                                            'Name' => 'PumlTokenizer',
+                                            'Package' => 'Lexer',
+                                            'Parents' => [],
+                                            'Interfaces' => []
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ],
+                    ],
+                    'Interfaces' => []
+                ]
             ]
         ], $ast->toArray());
     }
