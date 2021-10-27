@@ -21,7 +21,7 @@ class ParserTest extends TestCase
             [
                 'Interface' => [
                     'Name' => 'PumlTokenizer',
-                    'Package' => 'Lexer/Arrow',
+                    'Package' => 'Lexer',
                     'Parents' => [],
                     'Interfaces' => []
                 ]
@@ -35,7 +35,7 @@ class ParserTest extends TestCase
                         [
                             'Interface' => [
                                 'Name' => 'PumlTokenizer',
-                                'Package' => 'Lexer/Arrow',
+                                'Package' => 'Lexer',
                                 'Parents' => [],
                                 'Interfaces' => []
                             ]
@@ -57,7 +57,7 @@ class ParserTest extends TestCase
                                     [
                                         'Interface' => [
                                             'Name' => 'PumlTokenizer',
-                                            'Package' => 'Lexer/Arrow',
+                                            'Package' => 'Lexer',
                                             'Parents' => [],
                                             'Interfaces' => [],
                                         ]
