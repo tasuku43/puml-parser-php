@@ -19,13 +19,13 @@ class ElementValueTokenizer implements PumlTokenizer
     {
         $return = '';
 
-        foreach (mb_str_split($contents) as $ch) {
-            if ($this->isEndOfElementValue($ch)) {
+        do {
+            if ($this->isEndOfElementValue($contents)) {
                 break;
             }
 
-            $return .= $ch;
-        }
+            $return .= $contents[0];
+        } while ($contents = substr($contents, 1));
 
         return new ElementValueToken($return);
     }

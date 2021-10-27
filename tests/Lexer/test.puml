@@ -3,8 +3,8 @@ class Class
 abstract class AbstractClass
 interface Interface
 
-AbstractClass <|-- Class
-AbstractClass ..|> Interface
+AbstractClass<|-- Class
+AbstractClass..|> Interface
 
 package Package {
     interface Interface2
