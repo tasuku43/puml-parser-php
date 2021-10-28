@@ -8,6 +8,8 @@ use PumlParser\Lexer\Token\TokenSupport;
 
 abstract class ElementToken implements Token
 {
+    protected string $value;
+
     public const CLASS_          = 'class';
     public const ABSTRACT_CLASS_ = 'abstract class';
     public const ABSTRACT_       = 'abstract';
@@ -38,5 +40,10 @@ abstract class ElementToken implements Token
             self::DIAMOND_,
             self::ANNOTATION_
         ];
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
     }
 }
