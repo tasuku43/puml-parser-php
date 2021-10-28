@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace PumlParser\Lexer\Token\CurlyBracket;
 
 use PumlParser\Lexer\Token\Exception\TokenException;
-use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Lexer\Tokenizeable;
 use PumlParser\Lexer\TokenizeSupport;
 
-class CurlyBracketTokenizer implements PumlTokenizer
+class CurlyBracketTokenizer implements Tokenizeable
 {
     use TokenizeSupport;
 

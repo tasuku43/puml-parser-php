@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\ElementValue;
 
-use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Lexer\Tokenizeable;
 use PumlParser\Lexer\TokenizeSupport;
 
-class ElementValueTokenizer implements PumlTokenizer
+class ElementValueTokenizer implements Tokenizeable
 {
     use TokenizeSupport;
 

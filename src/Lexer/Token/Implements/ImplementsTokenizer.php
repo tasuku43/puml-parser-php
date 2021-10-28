@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\Implements;
 
-use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Lexer\Tokenizeable;
 use PumlParser\Lexer\TokenizeSupport;
 
-class ImplementsTokenizer implements PumlTokenizer
+class ImplementsTokenizer implements Tokenizeable
 {
     public const SYMBOL   = 'implements';
 

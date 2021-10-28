@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\Start;
 
-use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Lexer\Tokenizeable;
 use PumlParser\Lexer\TokenizeSupport;
 
-class StartTokenizer implements PumlTokenizer
+class StartTokenizer implements Tokenizeable
 {
     public const PUML_START = '@startuml';
 

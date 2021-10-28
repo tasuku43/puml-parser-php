@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace PumlParser\Lexer\Token\Arrow;
 
 use PumlParser\Lexer\Token\Exception\TokenException;
-use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Lexer\Tokenizeable;
 use PumlParser\Lexer\TokenizeSupport;
 
-class ArrowTokenizer implements PumlTokenizer
+class ArrowTokenizer implements Tokenizeable
 {
     use TokenizeSupport;
 

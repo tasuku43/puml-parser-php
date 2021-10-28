@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace PumlParser\Lexer\Token\Element;
 
 use PumlParser\Lexer\Token\Exception\TokenException;
-use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Lexer\Tokenizeable;
 use PumlParser\Lexer\TokenizeSupport;
 
-class ElementTokenizer implements PumlTokenizer
+class ElementTokenizer implements Tokenizeable
 {
     use TokenizeSupport;
 

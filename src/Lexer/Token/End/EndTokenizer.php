@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\End;
 
-use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Lexer\Tokenizeable;
 use PumlParser\Lexer\TokenizeSupport;
 
-class EndTokenizer implements PumlTokenizer
+class EndTokenizer implements Tokenizeable
 {
     public const PUML_END   = '@enduml';
 
