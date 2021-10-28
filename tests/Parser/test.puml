@@ -1,13 +1,16 @@
 @startuml
 package Lexer {
-    interface PumlTokenizer
+    interface Tokenizeable
     package Lexer/Arrow {
-        abstract class ArrowTokenizer implements PumlTokenizer
+        abstract class ArrowTokenizer implements Tokenizeable
         class LeftArrowTokenizer extends ArrowTokenizer
     }
     package Lexer/CurlyBracket {
-        abstract class CurlyBracketTokenizer implements PumlTokenizer
-        class OpenCurlyBracketToken extends CurlyBracketTokenizer
+        abstract class CurlyBracketTokenizer
+        class OpenCurlyBracketToken
+        
+        CurlyBracketTokenizer..|>Tokenizeable
+        CurlyBracketTokenizer<|--OpenCurlyBracketToken
     }
 }
 @enduml
