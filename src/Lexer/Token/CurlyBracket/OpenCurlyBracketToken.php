@@ -6,15 +6,7 @@ namespace PumlParser\Lexer\Token\CurlyBracket;
 
 class OpenCurlyBracketToken extends CurlyBracketToken
 {
-    private string $value;
+    public const SYMBOL = '{';
 
-    public function __construct()
-    {
-        $this->value = self::OpenCurlyBracket_;
-    }
-
-    public function getValue(): string
-    {
-        return $this->value;
-    }
+    protected string $value = self::SYMBOL;
 }

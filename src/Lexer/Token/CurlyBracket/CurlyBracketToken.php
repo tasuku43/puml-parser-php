@@ -7,14 +7,10 @@ use PumlParser\Lexer\Token\Token;
 
 abstract class CurlyBracketToken implements Token
 {
-    public const OpenCurlyBracket_  = '{';
-    public const CloseCurlyBracket_ = '}';
+    protected string $value;
 
-    public static function symbols(): array
+    public function getValue(): string
     {
-        return [
-            self::OpenCurlyBracket_,
-            self::CloseCurlyBracket_,
-        ];
+        return $this->value;
     }
 }

@@ -5,15 +5,7 @@ namespace PumlParser\Lexer\Token\CurlyBracket;
 
 class CloseCurlyBracketToken extends CurlyBracketToken
 {
-    private string $value;
+    public const SYMBOL = '}';
 
-    public function __construct()
-    {
-        $this->value = self::CloseCurlyBracket_;
-    }
-
-    public function getValue(): string
-    {
-        return $this->value;
-    }
+    protected string $value = self::SYMBOL;
 }

@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\ElementValue;
 
-use PumlParser\Lexer\PumlTokenizer;
-use PumlParser\Lexer\TokenizeSupport;
+use PumlParser\Lexer\Lexer;
+use PumlParser\Lexer\Token\Arrow\LeftArrowToken;
+use PumlParser\Lexer\Token\Arrow\RightArrowToken;
+use PumlParser\Lexer\Tokenizeable;
 
-class ElementValueTokenizer implements PumlTokenizer
+class ElementValueTokenizer implements Tokenizeable
 {
-    use TokenizeSupport;
-
     public function parseable(string $contents): bool
     {
         return true;
@@ -19,14 +19,28 @@ class ElementValueTokenizer implements PumlTokenizer
     {
         $return = '';
 
-        foreach (mb_str_split($contents) as $ch) {
-            if ($this->isEndOfElementValue($ch)) {
+        do {
+            if ($this->isEndOfElementValue($contents)) {
                 break;
             }
 
-            $return .= $ch;
-        }
+            $return .= $contents[0];
+        } while ($contents = substr($contents, 1));
 
         return new ElementValueToken($return);
+    }
+
+    private function isEndOfElementValue(string $contents): bool
+    {
+        foreach (Lexer::SKIP_STRINGS as $endCh) {
+            if (str_starts_with($contents, $endCh)) return true;
+        }
+
+        if (preg_match(LeftArrowToken::PATTERN, $contents) === 1
+            || preg_match(RightArrowToken::PATTERN, $contents) === 1) {
+            return true;
+        }
+
+        return false;
     }
 }

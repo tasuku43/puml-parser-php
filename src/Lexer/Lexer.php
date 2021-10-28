@@ -19,15 +19,15 @@ class Lexer
         "\t"
     ];
 
-    private int                   $length;
-    private int                   $position;
-    private PumlTokenizerResolver $tokenizerResolver;
+    private int           $length;
+    private int           $position;
+    private PumlTokenizer $tokenizer;
 
     public function __construct(private string $contents)
     {
-        $this->length            = strlen($contents);
-        $this->position          = 0;
-        $this->tokenizerResolver = new PumlTokenizerResolver();
+        $this->length    = strlen($contents);
+        $this->position  = 0;
+        $this->tokenizer = new PumlTokenizer();
     }
 
     public static function fromSourceFile(string $sourceFilePath): self
@@ -81,7 +81,7 @@ class Lexer
             break;
         }
 
-        $token = $this->tokenizerResolver->resolve($contents)->parseForward($contents);
+        $token = $this->tokenizer->parseForward($contents);
 
         $this->position += strlen($token->getValue());
 

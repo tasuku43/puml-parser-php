@@ -3,22 +3,17 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\Implements;
 
-use PumlParser\Lexer\PumlTokenizer;
-use PumlParser\Lexer\TokenizeSupport;
+use PumlParser\Lexer\Tokenizeable;
 
-class ImplementsTokenizer implements PumlTokenizer
+class ImplementsTokenizer implements Tokenizeable
 {
-    public const SYMBOL   = 'implements';
-
-    use TokenizeSupport;
-
     public function parseable(string $contents): bool
     {
-        return str_starts_with($contents, self::SYMBOL);
+        return str_starts_with($contents, ImplementsToken::SYMBOL);
     }
 
     public function parseForward(string $contents): ImplementsToken
     {
-        return new ImplementsToken(self::SYMBOL);
+        return new ImplementsToken();
     }
 }

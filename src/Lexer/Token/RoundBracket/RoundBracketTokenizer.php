@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\RoundBracket;
 
-use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Lexer\Tokenizeable;
 use PumlParser\Lexer\Token\Exception\TokenException;
 use PumlParser\Lexer\TokenizeSupport;
 
-class RoundBracketTokenizer implements PumlTokenizer
+class RoundBracketTokenizer implements Tokenizeable
 {
     use TokenizeSupport;
 
