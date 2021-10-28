@@ -9,8 +9,6 @@ use PumlParser\Lexer\TokenizeSupport;
 
 class CurlyBracketTokenizer implements Tokenizeable
 {
-    use TokenizeSupport;
-
     public function parseable(string $contents): bool
     {
         return str_starts_with($contents, OpenCurlyBracketToken::SYMBOL)

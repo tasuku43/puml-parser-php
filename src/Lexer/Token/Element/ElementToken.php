@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace PumlParser\Lexer\Token\Element;
 
 use PumlParser\Lexer\Token\Token;
-use PumlParser\Lexer\Token\TokenSupport;
 
 abstract class ElementToken implements Token
 {

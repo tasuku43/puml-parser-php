@@ -32,4 +32,14 @@ class ArrowTokenizer implements Tokenizeable
             default       => throw new TokenException()
         };
     }
+
+    /**
+     * @throws TokenException
+     */
+    private function pregMatchContents(string $contents, string $pattern): string
+    {
+        preg_match($pattern, $contents, $match) ?: throw new TokenException();
+
+        return $match[0];
+    }
 }

@@ -9,14 +9,6 @@ abstract class CurlyBracketToken implements Token
 {
     protected string $value;
 
-    public static function symbols(): array
-    {
-        return [
-            self::OpenCurlyBracket_,
-            self::CloseCurlyBracket_,
-        ];
-    }
-
     public function getValue(): string
     {
         return $this->value;
