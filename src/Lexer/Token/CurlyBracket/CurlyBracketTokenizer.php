@@ -13,7 +13,8 @@ class CurlyBracketTokenizer implements Tokenizeable
 
     public function parseable(string $contents): bool
     {
-        return (bool) $this->contentsStartsWith($contents, CurlyBracketToken::symbols());
+        return str_starts_with($contents, OpenCurlyBracketToken::SYMBOL)
+            || str_starts_with($contents, CloseCurlyBracketToken::SYMBOL);
     }
 
     /**
@@ -22,8 +23,8 @@ class CurlyBracketTokenizer implements Tokenizeable
     public function parseForward(string $contents): OpenCurlyBracketToken|CloseCurlyBracketToken
     {
         return match (true) {
-            str_starts_with($contents, CurlyBracketToken::OpenCurlyBracket_) => new OpenCurlyBracketToken(),
-            str_starts_with($contents, CurlyBracketToken::CloseCurlyBracket_) => new CloseCurlyBracketToken(),
+            str_starts_with($contents, OpenCurlyBracketToken::SYMBOL) => new OpenCurlyBracketToken(),
+            str_starts_with($contents, CloseCurlyBracketToken::SYMBOL) => new CloseCurlyBracketToken(),
             default => throw new TokenException()
         };
     }
