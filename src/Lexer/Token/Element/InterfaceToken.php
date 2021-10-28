@@ -5,10 +5,5 @@ namespace PumlParser\Lexer\Token\Element;
 
 class InterfaceToken extends ElementToken
 {
-    protected string $value;
-
-    public function __construct()
-    {
-        $this->value = self::INTERFACE_;
-    }
+    protected string $value = self::INTERFACE_;
 }

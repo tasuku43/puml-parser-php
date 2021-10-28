@@ -5,10 +5,5 @@ namespace PumlParser\Lexer\Token\Element;
 
 class PackageToken extends ElementToken
 {
-    protected string $value;
-
-    public function __construct()
-    {
-        $this->value = self::PACKAGE_;
-    }
+    protected string $value = self::PACKAGE_;
 }
