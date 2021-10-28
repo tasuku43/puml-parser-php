@@ -19,6 +19,8 @@ class ExtendsTokenizer implements Tokenizeable
 
     public function parseForward(string $contents): ExtendsToken
     {
+        assert($this->parseable($contents));
+
         return new ExtendsToken(self::SYMBOL);
     }
 }
