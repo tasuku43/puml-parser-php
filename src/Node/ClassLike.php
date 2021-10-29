@@ -21,14 +21,18 @@ abstract class ClassLike implements Node
         return $this->name;
     }
 
-    public function extends(ClassLike $class): void
+    public function extends(ClassLike $class): self
     {
         $this->parents->add($class);
+
+        return $this;
     }
 
-    public function implements(ClassLike $class): void
+    public function implements(ClassLike $class): self
     {
         $this->interfaces->add($class);
+
+        return $this;
     }
 
     public function toArray(): array

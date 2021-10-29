@@ -25,8 +25,12 @@ class Nodes implements Node
         return array_map(fn($node) => $node->toArray(), $this->nodes);
     }
 
-    public function add(Node $node)
+    public function add(Node $node): void
     {
+        if (in_array($node, $this->nodes)) {
+            return;
+        }
+
         $this->nodes = array_merge($this->nodes, [$node]);
     }
 
