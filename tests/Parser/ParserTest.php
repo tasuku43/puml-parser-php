@@ -20,7 +20,7 @@ class ParserTest extends TestCase
         self::assertSame([
             [
                 'Interface' => [
-                    'Name' => 'PumlTokenizer',
+                    'Name' => 'Tokenizeable',
                     'Package' => 'Lexer',
                     'Parents' => [],
                     'Interfaces' => []
@@ -34,7 +34,7 @@ class ParserTest extends TestCase
                     'Interfaces' => [
                         [
                             'Interface' => [
-                                'Name' => 'PumlTokenizer',
+                                'Name' => 'Tokenizeable',
                                 'Package' => 'Lexer',
                                 'Parents' => [],
                                 'Interfaces' => []
@@ -56,7 +56,7 @@ class ParserTest extends TestCase
                                 'Interfaces' => [
                                     [
                                         'Interface' => [
-                                            'Name' => 'PumlTokenizer',
+                                            'Name' => 'Tokenizeable',
                                             'Package' => 'Lexer',
                                             'Parents' => [],
                                             'Interfaces' => [],
@@ -77,7 +77,7 @@ class ParserTest extends TestCase
                     'Interfaces' => [
                         [
                             'Interface' => [
-                                'Name' => 'PumlTokenizer',
+                                'Name' => 'Tokenizeable',
                                 'Package' => 'Lexer',
                                 'Parents' => [],
                                 'Interfaces' => []
@@ -99,7 +99,7 @@ class ParserTest extends TestCase
                                 'Interfaces' => [
                                     [
                                         'Interface' => [
-                                            'Name' => 'PumlTokenizer',
+                                            'Name' => 'Tokenizeable',
                                             'Package' => 'Lexer',
                                             'Parents' => [],
                                             'Interfaces' => []
