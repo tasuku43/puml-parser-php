@@ -22,6 +22,7 @@ class Lexer
     private int           $length;
     private int           $position;
     private PumlTokenizer $tokenizer;
+    private array         $history = [];
 
     public function __construct(private string $contents)
     {
@@ -42,35 +43,17 @@ class Lexer
         return new self(implode($contents_array));
     }
 
-    /**
-     * @throws TokenException
-     */
-    public function getNextElementToken(): ElementToken
+    public function prevToken(int $stepNum = 1): Token
     {
-        $token = $this->getNextToken();
-
-        if ($token instanceof ElementToken) {
-            return $token;
-        }
-
-        throw new TokenException();
+        return $this->history[array_key_last($this->history) - $stepNum];
     }
 
-    /**
-     * @throws TokenException
-     */
-    public function getNextElementValueToken(): ElementValueToken
+    public function currentToken(): Token
     {
-        $token = $this->getNextToken();
-
-        if ($token instanceof ElementValueToken) {
-            return $token;
-        }
-
-        throw new TokenException();
+        return $this->history[array_key_last($this->history)];
     }
 
-    public function getNextToken(): Token
+    public function nextToken(): Token
     {
         while ($contents = $this->currentToEndContents()) {
             if ($start_string = $this->contentsStartsWith($contents, self::SKIP_STRINGS)) {
@@ -85,7 +68,35 @@ class Lexer
 
         $this->position += strlen($token->getValue());
 
-        return $token;
+        return $this->history[] = $token;
+    }
+
+    /**
+     * @throws TokenException
+     */
+    public function nextElementToken(): ElementToken
+    {
+        $token = $this->nextToken();
+
+        if ($token instanceof ElementToken) {
+            return $token;
+        }
+
+        throw new TokenException();
+    }
+
+    /**
+     * @throws TokenException
+     */
+    public function nextElementValueToken(): ElementValueToken
+    {
+        $token = $this->nextToken();
+
+        if ($token instanceof ElementValueToken) {
+            return $token;
+        }
+
+        throw new TokenException();
     }
 
     private function currentToEndContents(): ?string
