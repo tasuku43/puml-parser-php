@@ -43,33 +43,33 @@ class Parser
      */
     public function parse(): Nodes
     {
-        $token = $this->lexer->nextToken();
+        $token = $this->lexer->next();
 
-        if ($token instanceof StartToken) return $this->parse();
-        if ($token instanceof PackageToken) return $this->parseInPackage();
+        if (!$token instanceof StartToken) {
+            throw new ParserException();
+        }
 
-        if ($this->isClassLikeToken($token)) {
-            assert($token instanceof ElementToken);
+        while ($token = $this->lexer->next())
+        {
+            if ($token instanceof PackageToken) {
+                $this->parseInPackage();
+            }
 
-            $this->nodes->add($this->parseClassLike($token, $this->lexer->nextElementValueToken()));
+            if ($this->isClassLikeToken($token)) {
+                assert($token instanceof ElementToken);
 
-            return $this->parse();
-        } elseif ($token instanceof ExtendsToken) {
-            $this->parseExtends($this->lexer->nextElementValueToken());
-
-            return $this->parse();
-        } elseif ($token instanceof ImplementsToken) {
-            $this->parseImplements($this->lexer->nextElementValueToken());
-
-            return $this->parse();
-        } elseif ($token instanceof LeftArrowToken) {
-            $this->parseLeftArrow($token);
-
-            return $this->parse();
-        } elseif ($token instanceof RightArrowToken) {
-            $this->parseRightArrow($token);
-
-            return $this->parse();
+                $this->parseClassLike($token, $this->lexer->nextElementValueToken());
+            } elseif ($token instanceof ExtendsToken) {
+                $this->parseExtends($this->lexer->nextElementValueToken());
+            } elseif ($token instanceof ImplementsToken) {
+                $this->parseImplements($this->lexer->nextElementValueToken());
+            } elseif ($token instanceof LeftArrowToken) {
+                $this->parseLeftArrow($token);
+            } elseif ($token instanceof RightArrowToken) {
+                $this->parseRightArrow($token);
+            } elseif ($token instanceof EndToken) {
+                break;
+            }
         }
 
         return $this->nodes;
@@ -79,13 +79,13 @@ class Parser
      * @throws ParserException
      * @throws TokenException
      */
-    private function parseInPackage(): Nodes
+    private function parseInPackage(): void
     {
-        $package = $this->lexer->nextToken()->getValue();
+        $package = $this->lexer->next()->getValue();
 
         $depth = 0;
 
-        while ($token = $this->lexer->nextToken()) {
+        while ($token = $this->lexer->next()) {
             if ($token instanceof OpenCurlyBracketToken) {
                 $depth++;
             }
@@ -97,10 +97,11 @@ class Parser
 
             switch (true) {
                 case $this->isClassLikeToken($token):
-                    $this->nodes->add($this->parseClassLike($token, $this->lexer->nextElementValueToken(), $package));
+                    $this->parseClassLike($token, $this->lexer->nextElementValueToken(), $package);
                     break;
                 case $token instanceof PackageToken:
-                    return $this->parseInPackage();
+                    $this->parseInPackage();
+                    break;
                 case $token instanceof ExtendsToken:
                     $this->parseExtends($this->lexer->nextElementValueToken());
                     break;
@@ -113,25 +114,23 @@ class Parser
                 case $token instanceof RightArrowToken:
                     $this->parseRightArrow($token);
                     break;
-                case $token instanceof EndToken:
-                    return $this->nodes;
             }
         }
-
-        return $this->parse();
     }
 
     private function parseClassLike(
         ElementToken $elementToken,
         ElementValueToken $valueToken,
         string $currentPackage = ''
-    ): Node
+    ): void
     {
-        return match (true) {
+        $classLike = match (true) {
             $elementToken instanceof ClassToken => new Class_($valueToken->getValue(), $currentPackage),
             $elementToken instanceof AbstractClassToken => new AbstractClass_($valueToken->getValue(), $currentPackage),
             $elementToken instanceof InterfaceToken => new Interface_($valueToken->getValue(), $currentPackage),
         };
+
+        $this->nodes->add($classLike);
     }
 
     /**
@@ -139,7 +138,7 @@ class Parser
      */
     private function parseImplements(ElementValueToken $valueToken): void
     {
-        $lastClassLike = $this->nodes->searchByName($this->lexer->prevToken(2)->getValue());
+        $lastClassLike = $this->nodes->searchByName($this->lexer->prev(2)->getValue());
         assert($lastClassLike instanceof ClassLike);
 
         $interface = $this->nodes->searchByName($valueToken->getValue()) ?? throw new ParserException();
@@ -152,7 +151,7 @@ class Parser
      */
     private function parseExtends(ElementValueToken $valueToken): void
     {
-        $lastClassLike = $this->nodes->searchByName($this->lexer->prevToken(2)->getValue());
+        $lastClassLike = $this->nodes->searchByName($this->lexer->prev(2)->getValue());
         assert($lastClassLike instanceof ClassLike);
 
         $class = $this->nodes->searchByName($valueToken->getValue()) ?? throw new ParserException();
@@ -168,7 +167,7 @@ class Parser
     {
         switch (true) {
             case str_starts_with($token->getValue(), '<|.'):
-                $lastClassLike = $this->nodes->searchByName($this->lexer->prevToken()->getValue());
+                $lastClassLike = $this->nodes->searchByName($this->lexer->prev()->getValue());
                 assert($lastClassLike instanceof ClassLike);
 
                 $valueToken = $this->lexer->nextElementValueToken();
@@ -179,7 +178,7 @@ class Parser
 
                 break;
             case str_starts_with($token->getValue(), '<|-'):
-                $lastClassLike = $this->nodes->searchByName($this->lexer->prevToken()->getValue());
+                $lastClassLike = $this->nodes->searchByName($this->lexer->prev()->getValue());
                 assert($lastClassLike instanceof ClassLike);
 
                 $valueToken = $this->lexer->nextElementValueToken();
@@ -212,7 +211,7 @@ class Parser
     {
         switch (true) {
             case str_ends_with($token->getValue(), '.|>'):
-                $lastClassLike = $this->nodes->searchByName($this->lexer->prevToken()->getValue());
+                $lastClassLike = $this->nodes->searchByName($this->lexer->prev()->getValue());
                 assert($lastClassLike instanceof ClassLike);
 
                 $valueToken = $this->lexer->nextElementValueToken();
@@ -223,7 +222,7 @@ class Parser
 
                 break;
             case str_ends_with($token->getValue(), '-|>'):
-                $lastClassLike = $this->nodes->searchByName($this->lexer->prevToken()->getValue());
+                $lastClassLike = $this->nodes->searchByName($this->lexer->prev()->getValue());
                 assert($lastClassLike instanceof ClassLike);
 
                 $valueToken = $this->lexer->nextElementValueToken();

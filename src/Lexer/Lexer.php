@@ -43,17 +43,17 @@ class Lexer
         return new self(implode($contents_array));
     }
 
-    public function prevToken(int $stepNum = 1): Token
+    public function prev(int $backStepNum = 1): Token
     {
-        return $this->history[array_key_last($this->history) - $stepNum];
+        return $this->history[array_key_last($this->history) - $backStepNum];
     }
 
-    public function currentToken(): Token
+    public function current(): Token
     {
         return $this->history[array_key_last($this->history)];
     }
 
-    public function nextToken(): Token
+    public function next(): Token
     {
         while ($contents = $this->currentToEndContents()) {
             if ($start_string = $this->contentsStartsWith($contents, self::SKIP_STRINGS)) {
@@ -76,7 +76,7 @@ class Lexer
      */
     public function nextElementToken(): ElementToken
     {
-        $token = $this->nextToken();
+        $token = $this->next();
 
         if ($token instanceof ElementToken) {
             return $token;
@@ -90,7 +90,7 @@ class Lexer
      */
     public function nextElementValueToken(): ElementValueToken
     {
-        $token = $this->nextToken();
+        $token = $this->next();
 
         if ($token instanceof ElementValueToken) {
             return $token;
