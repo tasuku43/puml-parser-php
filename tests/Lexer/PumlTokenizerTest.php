@@ -12,63 +12,98 @@ class PumlTokenizerTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testParseForward(string $expected, string $class): void
+    public function testParseForward(string $contents, string $expected_className): void
     {
 
         $tokenizer = new PumlTokenizer();
-        $token     = $tokenizer->parseForward($expected);
+        $token     = $tokenizer->parseForward($contents);
 
-        self::assertInstanceOf($class, $token);
-        self::assertSame($token->getValue(), $expected);
+        self::assertInstanceOf($expected_className, $token);
+        self::assertSame($token->getValue(), $contents);
     }
 
     public function dataProvider(): array
     {
         return [
             '<|up--' => [
-                'expected' => '<|up--',
-                'className' => LeftArrowToken::class
+                'expected_value' => '<|up--',
+                'expected_className' => LeftArrowToken::class
             ],
             '<down--' => [
-                'expected' => '<down--',
-                'className' => LeftArrowToken::class
+                'expected_value' => '<down--',
+                'expected_className' => LeftArrowToken::class
+            ],
+            'o--' => [
+                'expected_value' => 'o--',
+                'expected_className' => LeftArrowToken::class
+            ],
+            '*left-' => [
+                'expected_value' => '*left-',
+                'expected_className' => LeftArrowToken::class
             ],
             '<-dow-' => [
-                'expected' => '<-down-',
-                'className' => LeftArrowToken::class
+                'expected_value' => '<-down-',
+                'expected_className' => LeftArrowToken::class
             ],
             '<|up---------' => [
-                'expected' => '<|up---------',
-                'className' => LeftArrowToken::class
+                'expected_value' => '<|up---------',
+                'expected_className' => LeftArrowToken::class
             ],
             '<|up.' => [
-                'expected' => '<|up.',
-                'className' => LeftArrowToken::class
+                'expected_value' => '<|up.',
+                'expected_className' => LeftArrowToken::class
             ],
             '<|-down-' => [
-                'expected' => '<|-down-',
-                'className' => LeftArrowToken::class
+                'expected_value' => '<|-down-',
+                'expected_className' => LeftArrowToken::class
             ],
             '--up|>' => [
-                'expected' => '--up|>',
-                'className' => RightArrowToken::class
+                'expected_value' => '--up|>',
+                'expected_className' => RightArrowToken::class
             ],
             '.up|>' => [
-                'expected' => '.up|>',
-                'className' => RightArrowToken::class]
+                'expected_value' => '.up|>',
+                'expected_className' => RightArrowToken::class]
             ,
             '-left-|>' => [
-                'expected' => '-left-|>',
-                'className' => RightArrowToken::class
+                'expected_value' => '-left-|>',
+                'expected_className' => RightArrowToken::class
             ],
             '------->' => [
-                'expected' => '------->',
-                'className' => RightArrowToken::class
+                'expected_value' => '------->',
+                'expected_className' => RightArrowToken::class
             ],
             '-right------>' => [
-                'expected' => '-right------>',
-                'className' => RightArrowToken::class
+                'expected_value' => '-right------>',
+                'expected_className' => RightArrowToken::class
             ]
+        ];
+    }
+
+    /**
+     * @dataProvider notArrowDataProviAder
+     */
+    public function testParseForwardNotArrow(string $contents, string $non_expected_className): void
+    {
+
+        $tokenizer = new PumlTokenizer();
+        $token     = $tokenizer->parseForward($contents);
+
+        self::assertNotInstanceOf($non_expected_className, $token);
+    }
+
+    public function notArrowDataProviAder(): array
+    {
+        return [
+            'o' => [
+                'contents' => 'o',
+                'non_expected_className' => LeftArrowToken::class
+            ],
+            '*' => [
+                'contents' => 'o',
+                'non_expected_className' => LeftArrowToken::class
+            ],
+
         ];
     }
 }
