@@ -15,8 +15,6 @@ class ParserTest extends TestCase
         $parser = new Parser(Lexer::fromSourceFile(__DIR__ . '/test.puml'));
         $ast    = $parser->parse();
 
-        self::assertInstanceOf(Node::class, $ast);
-
         self::assertSame([
             [
                 'Interface' => [

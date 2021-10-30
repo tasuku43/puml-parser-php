@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace PumlParser\Node;
 
-class Nodes implements Node
+use PumlParser\Dto\Difinition;
+
+class Nodes
 {
     /**
      * @var Node[]
@@ -23,6 +25,19 @@ class Nodes implements Node
     public function toArray(): array
     {
         return array_map(fn($node) => $node->toArray(), $this->nodes);
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    /**
+     * @return Difinition[]
+     */
+    public function toDts(): array
+    {
+        return array_map(fn($node) => $node->toDto(), $this->nodes);
     }
 
     public function add(Node $node): void

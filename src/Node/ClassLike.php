@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace PumlParser\Node;
 
+use PumlParser\Dto\Difinition;
+
 abstract class ClassLike implements Node
 {
     protected Nodes $parents;
@@ -45,5 +47,20 @@ abstract class ClassLike implements Node
                 'Interfaces' => $this->interfaces->toArray()
             ]
         ];
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    public function toDto(): Difinition
+    {
+        return new Difinition(
+            $this->name,
+            $this->getType(),
+            $this->package,
+            $this->parents->toDts(),
+            $this->interfaces->toDts());
     }
 }
