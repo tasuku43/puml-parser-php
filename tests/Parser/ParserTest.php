@@ -5,7 +5,6 @@ namespace PumlParser\Tests\Lexer;
 
 use PHPUnit\Framework\TestCase;
 use PumlParser\Lexer\Lexer;
-use PumlParser\Node\Node;
 use PumlParser\Parser\Parser;
 
 class ParserTest extends TestCase
