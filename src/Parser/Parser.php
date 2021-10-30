@@ -66,14 +66,15 @@ class Parser
                 $this->nodes->add($this->parseClassLike($token, $this->lexer->nextElementValueToken(), $package));
                 break;
             case $token instanceof ExtendsToken:
-                $childNameToken = $this->lexer->prevElementValueToken(2);
+                $childNameToken = $this->lexer->prevElementValueToken();
                 $parentNameToken = $this->lexer->nextElementValueToken();
 
                 $this->parseExtends($childNameToken, $parentNameToken);
                 break;
             case $token instanceof ImplementsToken:
-                $childNameToken = $this->lexer->prevElementValueToken(2);
+                $childNameToken = $this->lexer->prevElementValueToken();
                 $parentNameToken = $this->lexer->nextElementValueToken();
+
                 $this->parseImplements($childNameToken, $parentNameToken);
                 break;
             case $token instanceof LeftArrowToken:
