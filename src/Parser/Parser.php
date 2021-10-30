@@ -66,10 +66,15 @@ class Parser
                 $this->nodes->add($this->parseClassLike($token, $this->lexer->nextElementValueToken(), $package));
                 break;
             case $token instanceof ExtendsToken:
-                $this->parseExtends($this->lexer->nextElementValueToken());
+                $childNameToken = $this->lexer->prevElementValueToken(2);
+                $parentNameToken = $this->lexer->nextElementValueToken();
+
+                $this->parseExtends($childNameToken, $parentNameToken);
                 break;
             case $token instanceof ImplementsToken:
-                $this->parseImplements($this->lexer->nextElementValueToken());
+                $childNameToken = $this->lexer->prevElementValueToken(2);
+                $parentNameToken = $this->lexer->nextElementValueToken();
+                $this->parseImplements($childNameToken, $parentNameToken);
                 break;
             case $token instanceof LeftArrowToken:
                 $this->parseLeftArrow($token);
@@ -119,10 +124,10 @@ class Parser
     /**
      * @throws ParserException
      */
-    private function parseImplements(ElementValueToken $valueToken): Node
+    private function parseImplements(ElementValueToken $childNameToken, ElementValueToken $parentNameToken): Node
     {
-        $classLike = $this->nodes->searchByName($this->lexer->prev(2)->getValue()) ?? throw new ParserException();
-        $interface = $this->nodes->searchByName($valueToken->getValue()) ?? throw new ParserException();
+        $classLike = $this->nodes->searchByName($childNameToken->getValue()) ?? throw new ParserException();
+        $interface = $this->nodes->searchByName($parentNameToken->getValue()) ?? throw new ParserException();
 
         return $classLike->implements($interface);
     }
@@ -130,10 +135,10 @@ class Parser
     /**
      * @throws ParserException
      */
-    private function parseExtends(ElementValueToken $valueToken): Node
+    private function parseExtends(ElementValueToken $childNameToken, ElementValueToken $parentNameToken): Node
     {
-        $classLike = $this->nodes->searchByName($this->lexer->prev(2)->getValue()) ?? throw new ParserException();
-        $parent    = $this->nodes->searchByName($valueToken->getValue()) ?? throw new ParserException();
+        $classLike = $this->nodes->searchByName($childNameToken->getValue()) ?? throw new ParserException();
+        $parent    = $this->nodes->searchByName($parentNameToken->getValue()) ?? throw new ParserException();
 
         return $classLike->extends($parent);
     }
@@ -146,21 +151,15 @@ class Parser
     {
         switch (true) {
             case str_starts_with($token->getValue(), '<|.'):
-                $classLike = $this->nodes->searchByName($this->lexer->prev()->getValue()) ?? throw new ParserException();
+                $parentNameToken = $this->lexer->prevElementValueToken();
+                $childNameToken = $this->lexer->nextElementValueToken();
 
-                $valueToken = $this->lexer->nextElementValueToken();
-
-                $class = $this->nodes->searchByName($valueToken->getValue()) ?? throw new ParserException();
-
-                return $class->implements($classLike);
+                return $this->parseImplements($childNameToken, $parentNameToken);
             case str_starts_with($token->getValue(), '<|-'):
-                $classLike = $this->nodes->searchByName($this->lexer->prev()->getValue()) ?? throw new ParserException();
+                $parentNameToken = $this->lexer->prevElementValueToken();
+                $childNameToken = $this->lexer->nextElementValueToken();
 
-                $valueToken = $this->lexer->nextElementValueToken();
-
-                $class = $this->nodes->searchByName($valueToken->getValue()) ?? throw new ParserException();
-
-                return $class->extends($classLike);
+                return $this->parseExtends($childNameToken, $parentNameToken);
             case str_starts_with($token->getValue(), '<-'):
                 assert(false, 'Still no support.');
             case str_starts_with($token->getValue(), '<.'):
@@ -184,21 +183,15 @@ class Parser
     {
         switch (true) {
             case str_ends_with($token->getValue(), '.|>'):
-                $lastClassLike = $this->nodes->searchByName($this->lexer->prev()->getValue()) ?? throw new ParserException();
+                $childNameToken  = $this->lexer->prevElementValueToken();
+                $parentNameToken = $this->lexer->nextElementValueToken();
 
-                $valueToken = $this->lexer->nextElementValueToken();
-
-                $class = $this->nodes->searchByName($valueToken->getValue()) ?? throw new ParserException();
-
-                return $lastClassLike->implements($class);
+                return $this->parseImplements($childNameToken, $parentNameToken);
             case str_ends_with($token->getValue(), '-|>'):
-                $lastClassLike = $this->nodes->searchByName($this->lexer->prev()->getValue()) ?? throw new ParserException();
+                $childNameToken  = $this->lexer->prevElementValueToken();
+                $parentNameToken = $this->lexer->nextElementValueToken();
 
-                $valueToken = $this->lexer->nextElementValueToken();
-
-                $class = $this->nodes->searchByName($valueToken->getValue()) ?? throw new ParserException();
-
-                return $lastClassLike->extends($class);
+                return $this->parseExtends($childNameToken, $parentNameToken);
             case str_ends_with($token->getValue(), '->'):
                 assert(false, 'Still no support.');
             case str_ends_with($token->getValue(), '.>'):
