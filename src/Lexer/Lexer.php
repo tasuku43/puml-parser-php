@@ -43,6 +43,20 @@ class Lexer
         return new self(implode($contents_array));
     }
 
+    /**
+     * @throws TokenException
+     */
+    public function prevElementValueToken(int $backStepNum = 1): ElementValueToken
+    {
+        $token = $this->prev($backStepNum);
+
+        if ($token instanceof ElementValueToken) {
+            return $token;
+        }
+
+        throw new TokenException();
+    }
+
     public function prev(int $backStepNum = 1): Token
     {
         return $this->history[array_key_last($this->history) - $backStepNum];

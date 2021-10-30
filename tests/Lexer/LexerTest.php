@@ -22,7 +22,7 @@ use PumlParser\Lexer\Token\Token;
 
 class LexerTest extends TestCase
 {
-    public function testGetNextToken(): void
+    public function testNext(): void
     {
         $lexer = Lexer::fromSourceFile(__DIR__ . '/test.puml');
 

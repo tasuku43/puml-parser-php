@@ -5,7 +5,6 @@ namespace PumlParser\Tests\Lexer;
 
 use PHPUnit\Framework\TestCase;
 use PumlParser\Lexer\Lexer;
-use PumlParser\Node\Node;
 use PumlParser\Parser\Parser;
 
 class ParserTest extends TestCase
@@ -14,8 +13,6 @@ class ParserTest extends TestCase
     {
         $parser = new Parser(Lexer::fromSourceFile(__DIR__ . '/test.puml'));
         $ast    = $parser->parse();
-
-        self::assertInstanceOf(Node::class, $ast);
 
         self::assertSame([
             [
