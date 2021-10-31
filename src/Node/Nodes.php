@@ -35,7 +35,7 @@ class Nodes
     /**
      * @return Difinition[]
      */
-    public function toDts(): array
+    public function toDtos(): array
     {
         return array_map(fn($node) => $node->toDto(), $this->nodes);
     }

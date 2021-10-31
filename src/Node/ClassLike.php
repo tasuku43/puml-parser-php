@@ -60,7 +60,7 @@ abstract class ClassLike implements Node
             $this->name,
             $this->getType(),
             $this->package,
-            $this->parents->toDts(),
-            $this->interfaces->toDts());
+            $this->parents->toDtos(),
+            $this->interfaces->toDtos());
     }
 }
