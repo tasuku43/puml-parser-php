@@ -7,6 +7,6 @@ final class Class_ extends ClassLike
 {
     public function getType(): string
     {
-        return 'Class';
+        return 'class';
     }
 }

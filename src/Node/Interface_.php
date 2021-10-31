@@ -7,7 +7,7 @@ final class Interface_ extends ClassLike
 {
     public function getType(): string
     {
-        return 'Interface';
+        return 'interface';
     }
 }
 

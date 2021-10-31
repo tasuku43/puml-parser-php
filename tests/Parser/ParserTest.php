@@ -16,7 +16,7 @@ class ParserTest extends TestCase
 
         self::assertSame([
             [
-                'Interface' => [
+                'interface' => [
                     'Name' => 'Tokenizeable',
                     'Package' => 'Lexer',
                     'Parents' => [],
@@ -24,13 +24,13 @@ class ParserTest extends TestCase
                 ]
             ],
             [
-                'AbstractClass' => [
+                'abstract class' => [
                     'Name' => 'ArrowTokenizer',
                     'Package' => 'Lexer/Arrow',
                     'Parents' => [],
                     'Interfaces' => [
                         [
-                            'Interface' => [
+                            'interface' => [
                                 'Name' => 'Tokenizeable',
                                 'Package' => 'Lexer',
                                 'Parents' => [],
@@ -41,18 +41,18 @@ class ParserTest extends TestCase
                 ]
             ],
             [
-                'Class' => [
+                'class' => [
                     'Name' => 'LeftArrowTokenizer',
                     'Package' => 'Lexer/Arrow',
                     'Parents' => [
                         [
-                            'AbstractClass' => [
+                            'abstract class' => [
                                 'Name' => 'ArrowTokenizer',
                                 'Package' => 'Lexer/Arrow',
                                 'Parents' => [],
                                 'Interfaces' => [
                                     [
-                                        'Interface' => [
+                                        'interface' => [
                                             'Name' => 'Tokenizeable',
                                             'Package' => 'Lexer',
                                             'Parents' => [],
@@ -67,13 +67,13 @@ class ParserTest extends TestCase
                 ]
             ],
             [
-                'AbstractClass' => [
+                'abstract class' => [
                     'Name' => 'CurlyBracketTokenizer',
                     'Package' => 'Lexer/CurlyBracket',
                     'Parents' => [],
                     'Interfaces' => [
                         [
-                            'Interface' => [
+                            'interface' => [
                                 'Name' => 'Tokenizeable',
                                 'Package' => 'Lexer',
                                 'Parents' => [],
@@ -84,18 +84,18 @@ class ParserTest extends TestCase
                 ]
             ],
             [
-                'Class' => [
+                'class' => [
                     'Name' => 'OpenCurlyBracketToken',
                     'Package' => 'Lexer/CurlyBracket',
                     'Parents' => [
                         [
-                            'AbstractClass' => [
+                            'abstract class' => [
                                 'Name' => 'CurlyBracketTokenizer',
                                 'Package' => 'Lexer/CurlyBracket',
                                 'Parents' => [],
                                 'Interfaces' => [
                                     [
-                                        'Interface' => [
+                                        'interface' => [
                                             'Name' => 'Tokenizeable',
                                             'Package' => 'Lexer',
                                             'Parents' => [],
