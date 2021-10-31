@@ -1,6 +1,6 @@
 {
-    "name": "task2021/puml-parser-php",
-    "description": "This is a php parser for plantuml source file.",
+    "name": "task2021/puml-parser",
+    "description": "This is a php parser for plantuml file.",
     "type": "library",
     "minimum-stability": "stable",
     "license": "proprietary",
