@@ -1,5 +1,5 @@
 {
-    "name": "task2021/puml-parser",
+    "name": "tasuku43/puml-parser",
     "description": "This is a php parser for plantuml file.",
     "type": "library",
     "minimum-stability": "stable",
@@ -12,7 +12,8 @@
     ],
     "authors": [
         {
-            "name": "task2021"
+            "name": "tasuku43",
+            "email": "task.teckac@gmail.com"
         }
     ],
     "autoload": {
