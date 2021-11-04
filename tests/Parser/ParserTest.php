@@ -4,15 +4,14 @@ declare(strict_types=1);
 namespace PumlParser\Tests\Lexer;
 
 use PHPUnit\Framework\TestCase;
-use PumlParser\Lexer\Lexer;
 use PumlParser\Parser\Parser;
 
 class ParserTest extends TestCase
 {
     public function testParse(): void
     {
-        $parser = new Parser(Lexer::fromSourceFile(__DIR__ . '/test.puml'));
-        $ast    = $parser->parse();
+        $parser = new Parser();
+        $ast    = $parser->parse(__DIR__ . '/test.puml');
 
         self::assertSame([
             [

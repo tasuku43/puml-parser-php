@@ -28,18 +28,17 @@ use PumlParser\Parser\Exception\ParserException;
 class Parser
 {
     private Nodes $nodes;
-
-    public function __construct(private Lexer $lexer)
-    {
-        $this->nodes = Nodes::empty();
-    }
+    private Lexer $lexer;
 
     /**
      * @throws ParserException
      * @throws TokenException
      */
-    public function parse(): Nodes
+    public function parse(string $pumlFilePath): Nodes
     {
+        $this->nodes = Nodes::empty();
+        $this->lexer = Lexer::fromSourceFile($pumlFilePath);
+
         do {
             $token = $this->lexer->next();
 
