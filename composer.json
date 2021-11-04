@@ -1,5 +1,5 @@
 {
-    "name": "tasuku43/puml-parser",
+    "name": "puml2php/puml-parser",
     "description": "This is a php parser for plantuml file.",
     "type": "library",
     "minimum-stability": "stable",
