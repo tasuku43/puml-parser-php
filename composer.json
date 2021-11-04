@@ -18,7 +18,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "PumlParser\\": "src/",
+            "PumlParser\\": "src/"
         }
     },
     "autoload-dev": {
