@@ -13,6 +13,7 @@ class Difinition
         private array $interfaces
     )
     {
+        $this->package = str_replace("/", "\\", $package);
     }
 
     public function getName(): string
