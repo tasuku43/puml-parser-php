@@ -14,7 +14,7 @@ use PumlParser\Lexer\Token\Element\InterfaceToken;
 use PumlParser\Lexer\Token\Element\PackageToken;
 use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
 use PumlParser\Lexer\Token\End\EndToken;
-use PumlParser\Lexer\Token\Exception\TokenException;
+use PumlParser\Lexer\Token\Exception\TokenizeException;
 use PumlParser\Lexer\Token\Extends\ExtendsToken;
 use PumlParser\Lexer\Token\Implements\ImplementsToken;
 use PumlParser\Lexer\Token\Token;
@@ -32,7 +32,7 @@ class Parser
 
     /**
      * @throws ParserException
-     * @throws TokenException
+     * @throws TokenizeException
      */
     public function parse(string $pumlFilePath): Nodes
     {
@@ -52,7 +52,7 @@ class Parser
      * @param Token $token
      * @param string $package
      * @throws ParserException
-     * @throws TokenException
+     * @throws TokenizeException
      */
     private function parseToken(Token $token, string $package = ''): void
     {
@@ -87,7 +87,7 @@ class Parser
 
     /**
      * @throws ParserException
-     * @throws TokenException
+     * @throws TokenizeException
      */
     private function parseInPackage(string $package): void
     {
@@ -145,7 +145,7 @@ class Parser
 
     /**
      * @throws ParserException
-     * @throws TokenException
+     * @throws TokenizeException
      */
     private function parseLeftArrow(LeftArrowToken $token): Node
     {
@@ -185,7 +185,7 @@ class Parser
 
     /**
      * @throws ParserException
-     * @throws TokenException
+     * @throws TokenizeException
      */
     private function parseRightArrow(RightArrowToken $token): Node
     {

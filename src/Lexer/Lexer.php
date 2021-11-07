@@ -5,7 +5,7 @@ namespace PumlParser\Lexer;
 
 use PumlParser\Lexer\Token\Element\ElementToken;
 use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
-use PumlParser\Lexer\Token\Exception\TokenException;
+use PumlParser\Lexer\Token\Exception\TokenizeException;
 use PumlParser\Lexer\Token\Token;
 
 class Lexer
@@ -44,7 +44,7 @@ class Lexer
     }
 
     /**
-     * @throws TokenException
+     * @throws TokenizeException
      */
     public function prevElementValueToken(int $backStepNum = 1): ElementValueToken
     {
@@ -54,7 +54,7 @@ class Lexer
             return $token;
         }
 
-        throw new TokenException();
+        throw new TokenizeException(sprintf('The type of instance is not %s. actual: %s', ElementValueToken::class, $token::class));
     }
 
     public function prev(int $backStepNum = 1): Token
@@ -86,7 +86,7 @@ class Lexer
     }
 
     /**
-     * @throws TokenException
+     * @throws TokenizeException
      */
     public function nextElementToken(): ElementToken
     {
@@ -96,11 +96,11 @@ class Lexer
             return $token;
         }
 
-        throw new TokenException();
+        throw new TokenizeException(sprintf('The type of instance is not %s. actual: %s', ElementToken::class, $token::class));
     }
 
     /**
-     * @throws TokenException
+     * @throws TokenizeException
      */
     public function nextElementValueToken(): ElementValueToken
     {
@@ -110,7 +110,7 @@ class Lexer
             return $token;
         }
 
-        throw new TokenException();
+        throw new TokenizeException(sprintf('The type of instance is not %s. actual: %s', ElementValueToken::class, $token::class));
     }
 
     private function currentToEndContents(): ?string

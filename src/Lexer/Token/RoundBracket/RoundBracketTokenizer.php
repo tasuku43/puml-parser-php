@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace PumlParser\Lexer\Token\RoundBracket;
 
 use PumlParser\Lexer\Tokenizeable;
-use PumlParser\Lexer\Token\Exception\TokenException;
+use PumlParser\Lexer\Token\Exception\TokenizeException;
 use PumlParser\Lexer\TokenizeSupport;
 
 class RoundBracketTokenizer implements Tokenizeable
@@ -17,14 +17,14 @@ class RoundBracketTokenizer implements Tokenizeable
     }
 
     /**
-     * @throws TokenException
+     * @throws TokenizeException
      */
     public function parseForward(string $contents): CloseRoundBracketToken|OpenRoundBracketToken
     {
         return match (true) {
             str_starts_with($contents, RoundBracketToken::OpenRoundBracket_) => new OpenRoundBracketToken(),
             str_starts_with($contents, RoundBracketToken::CloseRoundBracket_) => new CloseRoundBracketToken(),
-            default => throw new TokenException()
+            default => throw new TokenizeException(sprintf('Parsing failed. contents: %s', $contents))
         };
     }
 }

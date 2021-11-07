@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\Element;
 
-use PumlParser\Lexer\Token\Exception\TokenException;
+use PumlParser\Lexer\Token\Exception\TokenizeException;
 use PumlParser\Lexer\Tokenizeable;
 use PumlParser\Lexer\TokenizeSupport;
 
@@ -17,7 +17,7 @@ class ElementTokenizer implements Tokenizeable
     }
 
     /**
-     * @throws TokenException
+     * @throws TokenizeException
      */
     public function parseForward(string $contents): ElementToken
     {
@@ -26,7 +26,7 @@ class ElementTokenizer implements Tokenizeable
             str_starts_with($contents, ElementToken::CLASS_) => new ClassToken(),
             str_starts_with($contents, ElementToken::ABSTRACT_CLASS_) => new AbstractClassToken(),
             str_starts_with($contents, ElementToken::INTERFACE_) => new InterfaceToken(),
-            default => throw new TokenException()
+            default => throw new TokenizeException(sprintf('Parsing failed. contents: %s', $contents))
         };
     }
 }
