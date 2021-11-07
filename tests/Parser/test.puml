@@ -12,5 +12,7 @@ package Lexer {
         CurlyBracketTokenizer..|>Tokenizeable
         CurlyBracketTokenizer<|--OpenCurlyBracketToken
     }
+
+    NoneDefinitionClass ..|> Tokenizeable
 }
 @enduml

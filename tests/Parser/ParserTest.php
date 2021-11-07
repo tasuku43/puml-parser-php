@@ -107,6 +107,23 @@ class ParserTest extends TestCase
                     ],
                     'Interfaces' => []
                 ]
+            ],
+            [
+                'class' => [
+                    'Name' => 'NoneDefinitionClass',
+                    'Package' => 'Lexer',
+                    'Parents' => [],
+                    'Interfaces' => [
+                        [
+                            'interface' => [
+                                'Name' => 'Tokenizeable',
+                                'Package' => 'Lexer',
+                                'Parents' => [],
+                                'Interfaces' => []
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ], $ast->toArray());
     }
