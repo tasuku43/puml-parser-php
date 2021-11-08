@@ -39,11 +39,25 @@ class Difinition
         return $this->parents;
     }
 
+    public function getParentNames(): array
+    {
+        return array_map(function (Difinition $difinition) {
+            return $difinition->getName();
+        }, $this->parents);
+    }
+
     /**
      * @return Difinition[]
      */
     public function getInterfaces(): array
     {
         return $this->interfaces;
+    }
+
+    public function getInterfaceNames(): array
+    {
+        return array_map(function (Difinition $difinition) {
+            return $difinition->getName();
+        }, $this->interfaces);
     }
 }
