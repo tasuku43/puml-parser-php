@@ -62,16 +62,16 @@ class Parser
                 $this->parseInPackage($package);
                 break;
             case $token instanceof ClassToken || $token instanceof AbstractClassToken || $token instanceof InterfaceToken:
-                $this->nodes->add($this->parseClassLike($token, $this->lexer->nextElementValueToken(), $package));
+                $this->parseClassLike($token, $this->lexer->nextElementValueToken(), $package);
                 break;
             case $token instanceof ExtendsToken:
-                $childNameToken = $this->lexer->prevElementValueToken();
+                $childNameToken  = $this->lexer->prevElementValueToken();
                 $parentNameToken = $this->lexer->nextElementValueToken();
 
                 $this->parseExtends($childNameToken, $parentNameToken, $package);
                 break;
             case $token instanceof ImplementsToken:
-                $childNameToken = $this->lexer->prevElementValueToken();
+                $childNameToken  = $this->lexer->prevElementValueToken();
                 $parentNameToken = $this->lexer->nextElementValueToken();
 
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
@@ -112,50 +112,46 @@ class Parser
         ClassToken|AbstractClassToken|InterfaceToken $elementToken,
         ElementValueToken $valueToken,
         string $package = ''
-    ): Node
+    ): void
     {
-         return match (true) {
-            $elementToken instanceof ClassToken         => new Class_($valueToken->getValue(), $package),
+        $node = match (true) {
+            $elementToken instanceof ClassToken => new Class_($valueToken->getValue(), $package),
             $elementToken instanceof AbstractClassToken => new AbstractClass_($valueToken->getValue(), $package),
-            $elementToken instanceof InterfaceToken     => new Interface_($valueToken->getValue(), $package),
+            $elementToken instanceof InterfaceToken => new Interface_($valueToken->getValue(), $package),
         };
+
+        $this->nodes->add($node);
     }
 
-    /**
-     * @throws ParserException
-     */
     private function parseImplements(
         ElementValueToken $childNameToken,
         ElementValueToken $parentNameToken,
         string $package = ''
-    ): Node
+    ): void
     {
         $classLike = $this->nodes->searchByName($childNameToken->getValue()) ?? $this->createUndefinedClass($childNameToken, $package);
         $interface = $this->nodes->searchByName($parentNameToken->getValue()) ?? $this->createUndefinedClass($parentNameToken, $package);
 
-        return $classLike->implements($interface);
+        $classLike->implements($interface);
     }
 
-    /**
-     * @throws ParserException
-     */
     private function parseExtends(
         ElementValueToken $childNameToken,
         ElementValueToken $parentNameToken,
         string $package = ''
-    ): Node
+    ): void
     {
         $classLike = $this->nodes->searchByName($childNameToken->getValue()) ?? $this->createUndefinedClass($childNameToken, $package);
         $parent    = $this->nodes->searchByName($parentNameToken->getValue()) ?? $this->createUndefinedClass($parentNameToken, $package);
 
-        return $classLike->extends($parent);
+        $classLike->extends($parent);
     }
 
     /**
      * @throws ParserException
      * @throws TokenizeException
      */
-    private function parseLeftArrow(LeftArrowToken $token, string $package = ''): Node
+    private function parseLeftArrow(LeftArrowToken $token, string $package = ''): void
     {
         switch (true) {
             case str_starts_with($token->getValue(), '<|up.'):
@@ -164,30 +160,28 @@ class Parser
             case str_starts_with($token->getValue(), '<|right.'):
             case str_starts_with($token->getValue(), '<|.'):
                 $parentNameToken = $this->lexer->prevElementValueToken();
-                $childNameToken = $this->lexer->nextElementValueToken();
+                $childNameToken  = $this->lexer->nextElementValueToken();
 
-                return $this->parseImplements($childNameToken, $parentNameToken, $package);
+                $this->parseImplements($childNameToken, $parentNameToken, $package);
+                break;
             case str_starts_with($token->getValue(), '<|up-'):
             case str_starts_with($token->getValue(), '<|down-'):
             case str_starts_with($token->getValue(), '<|left-'):
             case str_starts_with($token->getValue(), '<|right-'):
             case str_starts_with($token->getValue(), '<|-'):
                 $parentNameToken = $this->lexer->prevElementValueToken();
-                $childNameToken = $this->lexer->nextElementValueToken();
+                $childNameToken  = $this->lexer->nextElementValueToken();
 
-                return $this->parseExtends($childNameToken, $parentNameToken, $package);
+                $this->parseExtends($childNameToken, $parentNameToken, $package);
+                break;
             case str_starts_with($token->getValue(), '<-'):
-                assert(false, 'Still no support.');
             case str_starts_with($token->getValue(), '<.'):
-                assert(false, 'Still no support.');
             case str_starts_with($token->getValue(), 'o-'):
-                assert(false, 'Still no support.');
             case str_starts_with($token->getValue(), 'o.'):
-                assert(false, 'Still no support.');
             case str_starts_with($token->getValue(), '*-'):
-                assert(false, 'Still no support.');
             case str_starts_with($token->getValue(), '*.'):
-                assert(false, 'Still no support.');
+//                fwrite(STDOUT, sprintf("Skip parsing of '%s'. Still no support.\n", $token->getValue()));
+                break;
         }
     }
 
@@ -195,7 +189,7 @@ class Parser
      * @throws ParserException
      * @throws TokenizeException
      */
-    private function parseRightArrow(RightArrowToken $token, string $package = ''): Node
+    private function parseRightArrow(RightArrowToken $token, string $package = ''): void
     {
         switch (true) {
             case str_ends_with($token->getValue(), '.up|>'):
@@ -206,7 +200,8 @@ class Parser
                 $childNameToken  = $this->lexer->prevElementValueToken();
                 $parentNameToken = $this->lexer->nextElementValueToken();
 
-                return $this->parseImplements($childNameToken, $parentNameToken, $package);
+                $this->parseImplements($childNameToken, $parentNameToken, $package);
+                break;
             case str_ends_with($token->getValue(), '-up|>'):
             case str_ends_with($token->getValue(), '-down|>'):
             case str_ends_with($token->getValue(), '-left|>'):
@@ -215,19 +210,16 @@ class Parser
                 $childNameToken  = $this->lexer->prevElementValueToken();
                 $parentNameToken = $this->lexer->nextElementValueToken();
 
-                return $this->parseExtends($childNameToken, $parentNameToken, $package);
+                $this->parseExtends($childNameToken, $parentNameToken, $package);
+                break;
             case str_ends_with($token->getValue(), '->'):
-                assert(false, 'Still no support.');
             case str_ends_with($token->getValue(), '.>'):
-                assert(false, 'Still no support.');
             case str_ends_with($token->getValue(), '-o'):
-                assert(false, 'Still no support.');
             case str_ends_with($token->getValue(), '.o'):
-                assert(false, 'Still no support.');
             case str_ends_with($token->getValue(), '-*'):
-                assert(false, 'Still no support.');
             case str_ends_with($token->getValue(), '.*'):
-                assert(false, 'Still no support.');
+//                fwrite(STDOUT, sprintf("Skip parsing of '%s'. Still no support.\n", $token->getValue()));
+                break;
         }
     }
 
@@ -238,10 +230,8 @@ class Parser
      */
     private function createUndefinedClass(ElementValueToken $childNameToken, string $package): Node
     {
-        $class = $this->parseClassLike(new ClassToken(), $childNameToken, $package);
+        $this->parseClassLike(new ClassToken(), $childNameToken, $package);
 
-        $this->nodes->add($class);
-
-        return $class;
+        return $this->nodes->last();
     }
 }
