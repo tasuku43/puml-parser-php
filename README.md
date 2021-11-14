@@ -1,4 +1,4 @@
-# PlantUML parser
+# PlantUML parser for PHP
 ## Overview
 This package builds AST of class definitions from plantuml files.
 
