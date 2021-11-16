@@ -30,13 +30,18 @@ class Parser
     private Nodes $nodes;
     private Lexer $lexer;
 
+    public function __construct()
+    {
+        $this->initializeNodes();
+        $this->initializeLexer();
+    }
+
     /**
      * @throws ParserException
      * @throws TokenizeException
      */
     public function parse(string $pumlFilePath): Nodes
     {
-        $this->nodes = Nodes::empty();
         $this->lexer = Lexer::fromSourceFile($pumlFilePath);
 
         do {
@@ -45,7 +50,7 @@ class Parser
             $this->parseToken($token);
         } while (!$token instanceof EndToken);
 
-        return $this->nodes;
+        return $this->postProcessing();
     }
 
     /**
@@ -233,5 +238,30 @@ class Parser
         $this->parseClassLike(new ClassToken(), $childNameToken, $package);
 
         return $this->nodes->last();
+    }
+
+    private function postProcessing(): Nodes
+    {
+        $nodes = $this->deepCopy($this->nodes);
+
+        $this->initializeNodes();
+        $this->initializeLexer();
+
+        return $nodes;
+    }
+
+    private function deepCopy(Nodes $nodes): Nodes
+    {
+        return unserialize(serialize($nodes));
+    }
+
+    private function initializeNodes(): void
+    {
+        $this->nodes = Nodes::empty();
+    }
+
+    private function initializeLexer(): void
+    {
+        $this->lexer = new Lexer('');
     }
 }
