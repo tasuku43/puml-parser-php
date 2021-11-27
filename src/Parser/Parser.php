@@ -160,9 +160,13 @@ class Parser
     {
         switch (true) {
             case str_starts_with($token->getValue(), '<|up.'):
+            case str_starts_with($token->getValue(), '<|.up'):
             case str_starts_with($token->getValue(), '<|down.'):
+            case str_starts_with($token->getValue(), '<|.down'):
             case str_starts_with($token->getValue(), '<|left.'):
+            case str_starts_with($token->getValue(), '<|.left'):
             case str_starts_with($token->getValue(), '<|right.'):
+            case str_starts_with($token->getValue(), '<|.right'):
             case str_starts_with($token->getValue(), '<|.'):
                 $parentNameToken = $this->lexer->prevElementValueToken();
                 $childNameToken  = $this->lexer->nextElementValueToken();
@@ -170,9 +174,13 @@ class Parser
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
                 break;
             case str_starts_with($token->getValue(), '<|up-'):
+            case str_starts_with($token->getValue(), '<|-up'):
             case str_starts_with($token->getValue(), '<|down-'):
+            case str_starts_with($token->getValue(), '<|-down'):
             case str_starts_with($token->getValue(), '<|left-'):
+            case str_starts_with($token->getValue(), '<|-left'):
             case str_starts_with($token->getValue(), '<|right-'):
+            case str_starts_with($token->getValue(), '<|-right'):
             case str_starts_with($token->getValue(), '<|-'):
                 $parentNameToken = $this->lexer->prevElementValueToken();
                 $childNameToken  = $this->lexer->nextElementValueToken();
@@ -198,9 +206,13 @@ class Parser
     {
         switch (true) {
             case str_ends_with($token->getValue(), '.up|>'):
+            case str_ends_with($token->getValue(), 'up.|>'):
             case str_ends_with($token->getValue(), '.down|>'):
+            case str_ends_with($token->getValue(), 'down.|>'):
             case str_ends_with($token->getValue(), '.left|>'):
+            case str_ends_with($token->getValue(), 'left.|>'):
             case str_ends_with($token->getValue(), '.right|>'):
+            case str_ends_with($token->getValue(), 'right.|>'):
             case str_ends_with($token->getValue(), '.|>'):
                 $childNameToken  = $this->lexer->prevElementValueToken();
                 $parentNameToken = $this->lexer->nextElementValueToken();
@@ -208,9 +220,13 @@ class Parser
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
                 break;
             case str_ends_with($token->getValue(), '-up|>'):
+            case str_ends_with($token->getValue(), 'up-|>'):
             case str_ends_with($token->getValue(), '-down|>'):
+            case str_ends_with($token->getValue(), 'down-|>'):
             case str_ends_with($token->getValue(), '-left|>'):
+            case str_ends_with($token->getValue(), 'left-|>'):
             case str_ends_with($token->getValue(), '-right|>'):
+            case str_ends_with($token->getValue(), 'right-|>'):
             case str_ends_with($token->getValue(), '-|>'):
                 $childNameToken  = $this->lexer->prevElementValueToken();
                 $parentNameToken = $this->lexer->nextElementValueToken();
