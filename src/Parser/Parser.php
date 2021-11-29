@@ -67,18 +67,6 @@ class Parser
             case $token instanceof ClassToken || $token instanceof AbstractClassToken || $token instanceof InterfaceToken:
                 $this->parseClassLike($token, $this->tokens->next(), $package);
                 break;
-            case $token instanceof ExtendsToken:
-                $childNameToken  = $this->tokens->getPrevToken();
-                $parentNameToken = $this->tokens->next();
-
-                $this->parseExtends($childNameToken, $parentNameToken, $package);
-                break;
-            case $token instanceof ImplementsToken:
-                $childNameToken  = $this->tokens->getPrevToken();
-                $parentNameToken = $this->tokens->next();
-
-                $this->parseImplements($childNameToken, $parentNameToken, $package);
-                break;
             case $token instanceof LeftArrowToken:
                 $this->parseLeftArrow($token, $package);
                 break;
@@ -124,6 +112,24 @@ class Parser
         };
 
         $this->nodes->add($node);
+
+        if ($this->tokens->getNextToken() instanceof ExtendsToken) {
+            $this->tokens->next();
+
+            $childNameToken  = $this->tokens->getPrevToken();
+            $parentNameToken = $this->tokens->next();
+
+            $this->parseExtends($childNameToken, $parentNameToken, $package);
+        }
+
+        if ($this->tokens->getNextToken() instanceof ImplementsToken) {
+            $this->tokens->next();
+
+            $childNameToken  = $this->tokens->getPrevToken();
+            $parentNameToken = $this->tokens->next();
+
+            $this->parseImplements($childNameToken, $parentNameToken, $package);
+        }
     }
 
     private function parseImplements(
@@ -150,10 +156,6 @@ class Parser
         $classLike->extends($parent);
     }
 
-    /**
-     * @throws ParserException
-     * @throws TokenizeException
-     */
     private function parseLeftArrow(LeftArrowToken $token, string $package = ''): void
     {
         switch (true) {
@@ -196,10 +198,6 @@ class Parser
         }
     }
 
-    /**
-     * @throws ParserException
-     * @throws TokenizeException
-     */
     private function parseRightArrow(RightArrowToken $token, string $package = ''): void
     {
         switch (true) {
