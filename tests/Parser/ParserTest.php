@@ -1,16 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace PumlParser\Tests\Lexer;
+namespace PumlParser\Tests\Parser;
 
 use PHPUnit\Framework\TestCase;
+use PumlParser\Lexer\Lexer;
+use PumlParser\Lexer\PumlTokenizer;
 use PumlParser\Parser\Parser;
 
 class ParserTest extends TestCase
 {
     public function testParse(): void
     {
-        $parser = new Parser();
+        $lexer  = new Lexer(new PumlTokenizer());
+        $parser = new Parser($lexer);
         $ast    = $parser->parse(__DIR__ . '/test.puml');
 
         self::assertSame([

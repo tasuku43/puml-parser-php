@@ -18,6 +18,7 @@ use PumlParser\Lexer\Token\Exception\TokenizeException;
 use PumlParser\Lexer\Token\Extends\ExtendsToken;
 use PumlParser\Lexer\Token\Implements\ImplementsToken;
 use PumlParser\Lexer\Token\Token;
+use PumlParser\Lexer\Token\Tokens;
 use PumlParser\Node\AbstractClass_;
 use PumlParser\Node\Class_;
 use PumlParser\Node\Interface_;
@@ -27,13 +28,12 @@ use PumlParser\Parser\Exception\ParserException;
 
 class Parser
 {
-    private Nodes $nodes;
-    private Lexer $lexer;
+    private Nodes  $nodes;
+    private Tokens $tokens;
 
-    public function __construct()
+    public function __construct(private Lexer $lexer)
     {
         $this->initializeNodes();
-        $this->initializeLexer();
     }
 
     /**
@@ -42,13 +42,11 @@ class Parser
      */
     public function parse(string $pumlFilePath): Nodes
     {
-        $this->lexer = Lexer::fromSourceFile($pumlFilePath);
-
+        $this->tokens = $this->lexer->startLexing($pumlFilePath);
+        
         do {
-            $token = $this->lexer->next();
-
-            $this->parseToken($token);
-        } while (!$token instanceof EndToken);
+            $this->parseToken($this->tokens->next());
+        } while (!$this->tokens->current() instanceof EndToken);
 
         return $this->postProcessing();
     }
@@ -63,21 +61,21 @@ class Parser
     {
         switch (true) {
             case $token instanceof PackageToken:
-                $package = $this->lexer->next()->getValue();
+                $package = $this->tokens->next()->getValue();
                 $this->parseInPackage($package);
                 break;
             case $token instanceof ClassToken || $token instanceof AbstractClassToken || $token instanceof InterfaceToken:
-                $this->parseClassLike($token, $this->lexer->nextElementValueToken(), $package);
+                $this->parseClassLike($token, $this->tokens->next(), $package);
                 break;
             case $token instanceof ExtendsToken:
-                $childNameToken  = $this->lexer->prevElementValueToken();
-                $parentNameToken = $this->lexer->nextElementValueToken();
+                $childNameToken  = $this->tokens->getPrevToken();
+                $parentNameToken = $this->tokens->next();
 
                 $this->parseExtends($childNameToken, $parentNameToken, $package);
                 break;
             case $token instanceof ImplementsToken:
-                $childNameToken  = $this->lexer->prevElementValueToken();
-                $parentNameToken = $this->lexer->nextElementValueToken();
+                $childNameToken  = $this->tokens->getPrevToken();
+                $parentNameToken = $this->tokens->next();
 
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
                 break;
@@ -99,7 +97,7 @@ class Parser
         $depth = 0;
 
         do {
-            $token = $this->lexer->next();
+            $token = $this->tokens->next();
 
             if ($token instanceof OpenCurlyBracketToken) {
                 $depth++;
@@ -168,8 +166,8 @@ class Parser
             case str_starts_with($token->getValue(), '<|right.'):
             case str_starts_with($token->getValue(), '<|.right'):
             case str_starts_with($token->getValue(), '<|.'):
-                $parentNameToken = $this->lexer->prevElementValueToken();
-                $childNameToken  = $this->lexer->nextElementValueToken();
+                $parentNameToken = $this->tokens->getPrevToken();
+                $childNameToken  = $this->tokens->next();
 
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
                 break;
@@ -182,8 +180,8 @@ class Parser
             case str_starts_with($token->getValue(), '<|right-'):
             case str_starts_with($token->getValue(), '<|-right'):
             case str_starts_with($token->getValue(), '<|-'):
-                $parentNameToken = $this->lexer->prevElementValueToken();
-                $childNameToken  = $this->lexer->nextElementValueToken();
+                $parentNameToken = $this->tokens->getPrevToken();
+                $childNameToken  = $this->tokens->next();
 
                 $this->parseExtends($childNameToken, $parentNameToken, $package);
                 break;
@@ -214,8 +212,8 @@ class Parser
             case str_ends_with($token->getValue(), '.right|>'):
             case str_ends_with($token->getValue(), 'right.|>'):
             case str_ends_with($token->getValue(), '.|>'):
-                $childNameToken  = $this->lexer->prevElementValueToken();
-                $parentNameToken = $this->lexer->nextElementValueToken();
+                $childNameToken  = $this->tokens->getPrevToken();
+                $parentNameToken = $this->tokens->next();
 
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
                 break;
@@ -228,8 +226,8 @@ class Parser
             case str_ends_with($token->getValue(), '-right|>'):
             case str_ends_with($token->getValue(), 'right-|>'):
             case str_ends_with($token->getValue(), '-|>'):
-                $childNameToken  = $this->lexer->prevElementValueToken();
-                $parentNameToken = $this->lexer->nextElementValueToken();
+                $childNameToken  = $this->tokens->getPrevToken();
+                $parentNameToken = $this->tokens->next();
 
                 $this->parseExtends($childNameToken, $parentNameToken, $package);
                 break;
@@ -261,7 +259,6 @@ class Parser
         $nodes = $this->deepCopy($this->nodes);
 
         $this->initializeNodes();
-        $this->initializeLexer();
 
         return $nodes;
     }
@@ -274,10 +271,5 @@ class Parser
     private function initializeNodes(): void
     {
         $this->nodes = Nodes::empty();
-    }
-
-    private function initializeLexer(): void
-    {
-        $this->lexer = new Lexer('');
     }
 }
