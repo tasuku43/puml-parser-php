@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer;
 
-use PumlParser\Lexer\Token\Element\ElementToken;
-use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
-use PumlParser\Lexer\Token\Exception\TokenizeException;
+use PumlParser\Lexer\Token\End\EndToken;
 use PumlParser\Lexer\Token\Token;
+use PumlParser\Lexer\Token\Tokens;
 
 class Lexer
 {
@@ -19,52 +18,29 @@ class Lexer
         "\t"
     ];
 
-    private int           $length;
-    private int           $position;
-    private PumlTokenizer $tokenizer;
-    private array         $history = [];
+    private int    $length   = 0;
+    private int    $position = 0;
+    private string $contents = '';
 
-    public function __construct(private string $contents)
+    public function __construct(private PumlTokenizer $tokenizer)
     {
-        $this->length    = strlen($contents);
-        $this->position  = 0;
-        $this->tokenizer = new PumlTokenizer();
     }
 
-    public static function fromSourceFile(string $sourceFilePath): self
+    public function startLexing(string $sourceFilePath): Tokens
     {
-        $file = file($sourceFilePath);
+        $this->initialize($sourceFilePath);
 
-        // remove puml comment line.
-        $contents_array = array_filter($file, function (string $line) {
-            return !str_starts_with(ltrim($line), "'");
-        });
+        $tokens = new Tokens();
 
-        return new self(implode($contents_array));
-    }
+        do {
+            $token = $this->next();
 
-    /**
-     * @throws TokenizeException
-     */
-    public function prevElementValueToken(int $backStepNum = 1): ElementValueToken
-    {
-        $token = $this->prev($backStepNum);
+            $tokens->add($token);
+        } while (!$token instanceof EndToken);
 
-        if ($token instanceof ElementValueToken) {
-            return $token;
-        }
+        $this->reflesh();
 
-        throw new TokenizeException(sprintf('The type of instance is not %s. actual: %s', ElementValueToken::class, $token::class));
-    }
-
-    public function prev(int $backStepNum = 1): Token
-    {
-        return $this->history[array_key_last($this->history) - $backStepNum];
-    }
-
-    public function current(): Token
-    {
-        return $this->history[array_key_last($this->history)];
+        return $tokens;
     }
 
     public function next(): Token
@@ -82,35 +58,7 @@ class Lexer
 
         $this->position += strlen($token->getValue());
 
-        return $this->history[] = $token;
-    }
-
-    /**
-     * @throws TokenizeException
-     */
-    public function nextElementToken(): ElementToken
-    {
-        $token = $this->next();
-
-        if ($token instanceof ElementToken) {
-            return $token;
-        }
-
-        throw new TokenizeException(sprintf('The type of instance is not %s. actual: %s', ElementToken::class, $token::class));
-    }
-
-    /**
-     * @throws TokenizeException
-     */
-    public function nextElementValueToken(): ElementValueToken
-    {
-        $token = $this->next();
-
-        if ($token instanceof ElementValueToken) {
-            return $token;
-        }
-
-        throw new TokenizeException(sprintf('The type of instance is not %s. actual: %s', ElementValueToken::class, $token::class));
+        return $token;
     }
 
     private function currentToEndContents(): ?string
@@ -125,5 +73,26 @@ class Lexer
         }
 
         return substr($this->contents, $this->position, $this->position + $length);
+    }
+
+    private function initialize(string $sourceFilePath): void
+    {
+        $file = file($sourceFilePath);
+
+        // remove puml comment line.
+        $contents_array = array_filter($file, function (string $line) {
+            return !str_starts_with(ltrim($line), "'");
+        });
+
+        $this->contents = implode($contents_array);
+        $this->length   = strlen($this->contents);
+        $this->position = 0;
+    }
+
+    public function reflesh(): void
+    {
+        $this->length   = 0;
+        $this->position = 0;
+        $this->contents = '';
     }
 }
