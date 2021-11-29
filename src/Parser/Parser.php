@@ -19,11 +19,13 @@ use PumlParser\Lexer\Token\Extends\ExtendsToken;
 use PumlParser\Lexer\Token\Implements\ImplementsToken;
 use PumlParser\Lexer\Token\Token;
 use PumlParser\Lexer\Token\Tokens;
+use PumlParser\Lexer\Token\Visibility\VisibilityToken;
 use PumlParser\Node\AbstractClass_;
 use PumlParser\Node\Class_;
 use PumlParser\Node\Interface_;
 use PumlParser\Node\Node;
 use PumlParser\Node\Nodes;
+use PumlParser\Node\Property;
 use PumlParser\Parser\Exception\ParserException;
 
 class Parser
@@ -43,7 +45,7 @@ class Parser
     public function parse(string $pumlFilePath): Nodes
     {
         $this->tokens = $this->lexer->startLexing($pumlFilePath);
-        
+
         do {
             $this->parseToken($this->tokens->next());
         } while (!$this->tokens->current() instanceof EndToken);
@@ -103,6 +105,9 @@ class Parser
         } while ($depth !== 0);
     }
 
+    /**
+     * @throws ParserException
+     */
     private function parseClassLike(
         ClassToken|AbstractClassToken|InterfaceToken $elementToken,
         ElementValueToken $valueToken,
@@ -138,6 +143,20 @@ class Parser
                 assert($childNameToken instanceof ElementValueToken && $parentNameToken instanceof ElementValueToken);
 
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
+        }
+
+        if ($this->tokens->nextTokenTypeIs(OpenCurlyBracketToken::class)) {
+            $this->tokens->next();
+
+            while (!($token = $this->tokens->next()) instanceof CloseCurlyBracketToken) {
+                if (!$token instanceof VisibilityToken) {
+                    throw new ParserException('property must be specified for visibility.');
+                }
+
+                $propertyNameToken = $this->tokens->next();
+
+                $node->addProperty(new Property($propertyNameToken->getValue(), (string)$token));
+            }
         }
     }
 
