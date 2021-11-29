@@ -3,7 +3,11 @@ package Lexer {
     interface Tokenizeable
     package Lexer/Arrow {
         abstract class ArrowTokenizer implements Tokenizeable
-        class LeftArrowTokenizer extends ArrowTokenizer
+        class LeftArrowTokenizer extends ArrowTokenizer {
+            + publicProperty
+            # protectedProperty
+            - privateProperty
+        }
     }
     package Lexer/CurlyBracket {
         abstract class CurlyBracketTokenizer

@@ -21,6 +21,7 @@ class ParserTest extends TestCase
                 'interface' => [
                     'Name' => 'Tokenizeable',
                     'Package' => 'Lexer',
+                    'Propaties' => [],
                     'Parents' => [],
                     'Interfaces' => []
                 ]
@@ -29,12 +30,14 @@ class ParserTest extends TestCase
                 'abstract class' => [
                     'Name' => 'ArrowTokenizer',
                     'Package' => 'Lexer/Arrow',
+                    'Propaties' => [],
                     'Parents' => [],
                     'Interfaces' => [
                         [
                             'interface' => [
                                 'Name' => 'Tokenizeable',
                                 'Package' => 'Lexer',
+                                'Propaties' => [],
                                 'Parents' => [],
                                 'Interfaces' => []
                             ]
@@ -46,17 +49,33 @@ class ParserTest extends TestCase
                 'class' => [
                     'Name' => 'LeftArrowTokenizer',
                     'Package' => 'Lexer/Arrow',
+                    'Propaties' => [
+                        [
+                            'name' => 'publicProperty',
+                            'visibility' => 'public',
+                        ],
+                        [
+                            'name' => 'protectedProperty',
+                            'visibility' => 'protected',
+                        ],
+                        [
+                            'name' => 'privateProperty',
+                            'visibility' => 'private',
+                        ],
+                    ],
                     'Parents' => [
                         [
                             'abstract class' => [
                                 'Name' => 'ArrowTokenizer',
                                 'Package' => 'Lexer/Arrow',
+                                'Propaties' => [],
                                 'Parents' => [],
                                 'Interfaces' => [
                                     [
                                         'interface' => [
                                             'Name' => 'Tokenizeable',
                                             'Package' => 'Lexer',
+                                            'Propaties' => [],
                                             'Parents' => [],
                                             'Interfaces' => [],
                                         ]
@@ -72,12 +91,14 @@ class ParserTest extends TestCase
                 'abstract class' => [
                     'Name' => 'CurlyBracketTokenizer',
                     'Package' => 'Lexer/CurlyBracket',
+                    'Propaties' => [],
                     'Parents' => [],
                     'Interfaces' => [
                         [
                             'interface' => [
                                 'Name' => 'Tokenizeable',
                                 'Package' => 'Lexer',
+                                'Propaties' => [],
                                 'Parents' => [],
                                 'Interfaces' => []
                             ]
@@ -89,17 +110,20 @@ class ParserTest extends TestCase
                 'class' => [
                     'Name' => 'OpenCurlyBracketToken',
                     'Package' => 'Lexer/CurlyBracket',
+                    'Propaties' => [],
                     'Parents' => [
                         [
                             'abstract class' => [
                                 'Name' => 'CurlyBracketTokenizer',
                                 'Package' => 'Lexer/CurlyBracket',
+                                'Propaties' => [],
                                 'Parents' => [],
                                 'Interfaces' => [
                                     [
                                         'interface' => [
                                             'Name' => 'Tokenizeable',
                                             'Package' => 'Lexer',
+                                            'Propaties' => [],
                                             'Parents' => [],
                                             'Interfaces' => []
                                         ]
@@ -115,12 +139,14 @@ class ParserTest extends TestCase
                 'class' => [
                     'Name' => 'NoneDefinitionClass',
                     'Package' => 'Lexer',
+                    'Propaties' => [],
                     'Parents' => [],
                     'Interfaces' => [
                         [
                             'interface' => [
                                 'Name' => 'Tokenizeable',
                                 'Package' => 'Lexer',
+                                'Propaties' => [],
                                 'Parents' => [],
                                 'Interfaces' => []
                             ]
