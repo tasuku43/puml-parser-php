@@ -65,7 +65,11 @@ class Parser
                 $this->parseInPackage($package);
                 break;
             case $token instanceof ClassToken || $token instanceof AbstractClassToken || $token instanceof InterfaceToken:
-                $this->parseClassLike($token, $this->tokens->next(), $package);
+                $nextToken = $this->tokens->next();
+
+                assert($nextToken instanceof ElementValueToken);
+
+                $this->parseClassLike($token, $nextToken, $package);
                 break;
             case $token instanceof LeftArrowToken:
                 $this->parseLeftArrow($token, $package);
@@ -120,6 +124,8 @@ class Parser
                 $childNameToken  = $this->tokens->getPrevToken();
                 $parentNameToken = $this->tokens->next();
 
+                assert($childNameToken instanceof ElementValueToken && $parentNameToken instanceof ElementValueToken);
+
                 $this->parseExtends($childNameToken, $parentNameToken, $package);
 
                 break;
@@ -128,6 +134,8 @@ class Parser
 
                 $childNameToken  = $this->tokens->getPrevToken();
                 $parentNameToken = $this->tokens->next();
+
+                assert($childNameToken instanceof ElementValueToken && $parentNameToken instanceof ElementValueToken);
 
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
         }
@@ -172,6 +180,8 @@ class Parser
                 $parentNameToken = $this->tokens->getPrevToken();
                 $childNameToken  = $this->tokens->next();
 
+                assert($childNameToken instanceof ElementValueToken && $parentNameToken instanceof ElementValueToken);
+
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
                 break;
             case str_starts_with($token->getValue(), '<|up-'):
@@ -185,6 +195,8 @@ class Parser
             case str_starts_with($token->getValue(), '<|-'):
                 $parentNameToken = $this->tokens->getPrevToken();
                 $childNameToken  = $this->tokens->next();
+
+                assert($childNameToken instanceof ElementValueToken && $parentNameToken instanceof ElementValueToken);
 
                 $this->parseExtends($childNameToken, $parentNameToken, $package);
                 break;
@@ -214,6 +226,8 @@ class Parser
                 $childNameToken  = $this->tokens->getPrevToken();
                 $parentNameToken = $this->tokens->next();
 
+                assert($childNameToken instanceof ElementValueToken && $parentNameToken instanceof ElementValueToken);
+
                 $this->parseImplements($childNameToken, $parentNameToken, $package);
                 break;
             case str_ends_with($token->getValue(), '-up|>'):
@@ -227,6 +241,8 @@ class Parser
             case str_ends_with($token->getValue(), '-|>'):
                 $childNameToken  = $this->tokens->getPrevToken();
                 $parentNameToken = $this->tokens->next();
+
+                assert($childNameToken instanceof ElementValueToken && $parentNameToken instanceof ElementValueToken);
 
                 $this->parseExtends($childNameToken, $parentNameToken, $package);
                 break;
