@@ -34,6 +34,11 @@ class Tokens implements \Iterator
         return $this->values[$this->position + $nextStepNum];
     }
 
+    public function nextTokenTypeIs(string $tokenType): bool
+    {
+        return $this->getNextToken()::class === $tokenType;
+    }
+
     public function add(Token $token): self
     {
         $this->values[] = $token;

@@ -113,22 +113,23 @@ class Parser
 
         $this->nodes->add($node);
 
-        if ($this->tokens->getNextToken() instanceof ExtendsToken) {
-            $this->tokens->next();
+        switch (true) {
+            case $this->tokens->nextTokenTypeIs(ExtendsToken::class):
+                $this->tokens->next();
 
-            $childNameToken  = $this->tokens->getPrevToken();
-            $parentNameToken = $this->tokens->next();
+                $childNameToken  = $this->tokens->getPrevToken();
+                $parentNameToken = $this->tokens->next();
 
-            $this->parseExtends($childNameToken, $parentNameToken, $package);
-        }
+                $this->parseExtends($childNameToken, $parentNameToken, $package);
 
-        if ($this->tokens->getNextToken() instanceof ImplementsToken) {
-            $this->tokens->next();
+                break;
+            case $this->tokens->nextTokenTypeIs(ImplementsToken::class):
+                $this->tokens->next();
 
-            $childNameToken  = $this->tokens->getPrevToken();
-            $parentNameToken = $this->tokens->next();
+                $childNameToken  = $this->tokens->getPrevToken();
+                $parentNameToken = $this->tokens->next();
 
-            $this->parseImplements($childNameToken, $parentNameToken, $package);
+                $this->parseImplements($childNameToken, $parentNameToken, $package);
         }
     }
 
