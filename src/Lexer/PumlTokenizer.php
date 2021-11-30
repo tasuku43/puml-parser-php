@@ -10,6 +10,7 @@ use PumlParser\Lexer\Token\ElementValue\ElementValueTokenizer;
 use PumlParser\Lexer\Token\End\EndTokenizer;
 use PumlParser\Lexer\Token\Extends\ExtendsTokenizer;
 use PumlParser\Lexer\Token\Implements\ImplementsTokenizer;
+use PumlParser\Lexer\Token\Visibility\VisibilityTokenizer;
 use PumlParser\Lexer\Token\RoundBracket\RoundBracketTokenizer;
 use PumlParser\Lexer\Token\Start\StartTokenizer;
 use PumlParser\Lexer\Token\Token;
@@ -38,6 +39,7 @@ class PumlTokenizer
             new RoundBracketTokenizer(),
             new ExtendsTokenizer(),
             new ImplementsTokenizer(),
+            new VisibilityTokenizer(),
             new EndTokenizer(),
         ];
     }

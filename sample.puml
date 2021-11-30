@@ -3,20 +3,14 @@ package Lexer {
     interface Tokenizeable
     package Lexer/Arrow {
         abstract class ArrowTokenizer implements Tokenizeable
-        class LeftArrowTokenizer extends ArrowTokenizer {
+        class LeftArrowTokenizer {
             + publicProperty : array
             # protectedProperty : string
             - privateProperty
         }
     }
-    package Lexer/CurlyBracket {
-        abstract class CurlyBracketTokenizer
-        class OpenCurlyBracketToken
-        
-        CurlyBracketTokenizer..|>Tokenizeable
-        CurlyBracketTokenizer<|--OpenCurlyBracketToken
-    }
 
+    LeftArrowTokenizer--|>ArrowTokenizer
     NoneDefinitionClass ..|> Tokenizeable
 }
 @enduml

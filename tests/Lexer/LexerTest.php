@@ -5,6 +5,7 @@ namespace PumlParser\Tests\Lexer;
 
 use PHPUnit\Framework\TestCase;
 use PumlParser\Lexer\Lexer;
+use PumlParser\Lexer\PumlTokenizer;
 use PumlParser\Lexer\Token\Arrow\LeftArrowToken;
 use PumlParser\Lexer\Token\Arrow\RightArrowToken;
 use PumlParser\Lexer\Token\CurlyBracket\CloseCurlyBracketToken;
@@ -17,6 +18,9 @@ use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
 use PumlParser\Lexer\Token\End\EndToken;
 use PumlParser\Lexer\Token\Extends\ExtendsToken;
 use PumlParser\Lexer\Token\Implements\ImplementsToken;
+use PumlParser\Lexer\Token\Visibility\PrivateVisibilityToken;
+use PumlParser\Lexer\Token\Visibility\ProtectedVisibilityToken;
+use PumlParser\Lexer\Token\Visibility\PublicVisibilityToken;
 use PumlParser\Lexer\Token\Start\StartToken;
 use PumlParser\Lexer\Token\Token;
 
@@ -24,47 +28,61 @@ class LexerTest extends TestCase
 {
     public function testNext(): void
     {
-        $lexer = Lexer::fromSourceFile(__DIR__ . '/test.puml');
+        $lexer = new Lexer(new PumlTokenizer());
+        $tokens = $lexer->startLexing(__DIR__ . '/test.puml');
 
-        self::assertInstanceOf(StartToken::class, $lexer->next());
+        self::assertInstanceOf(StartToken::class, $tokens->current());
 
-        $this->assertToken($lexer->next(), ClassToken::class, 'class');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'Class');
+        $this->assertToken($tokens->next(), ClassToken::class, 'class');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'Class');
 
-        $this->assertToken($lexer->next(), AbstractClassToken::class, 'abstract class');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'AbstractClass');
+        $this->assertToken($tokens->next(), OpenCurlyBracketToken::class, '{');
 
-        $this->assertToken($lexer->next(), InterfaceToken::class, 'interface');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'Interface');
+        $this->assertToken($tokens->next(), PublicVisibilityToken::class, '+');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'publicProperty');
 
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'AbstractClass');
-        $this->assertToken($lexer->next(), LeftArrowToken::class, '<|--');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'Class');
+        $this->assertToken($tokens->next(), ProtectedVisibilityToken::class, '#');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'protectedProperty');
 
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'AbstractClass');
-        $this->assertToken($lexer->next(), RightArrowToken::class, '..|>');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'Interface');
+        $this->assertToken($tokens->next(), PrivateVisibilityToken::class, '-');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'privateProperty');
 
-        $this->assertToken($lexer->next(), PackageToken::class, 'package');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'Package');
-        $this->assertToken($lexer->next(), OpenCurlyBracketToken::class, '{');
+        $this->assertToken($tokens->next(), CloseCurlyBracketToken::class, '}');
 
-        $this->assertToken($lexer->next(), InterfaceToken::class, 'interface');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'Interface2');
+        $this->assertToken($tokens->next(), AbstractClassToken::class, 'abstract class');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'AbstractClass');
 
-        $this->assertToken($lexer->next(), AbstractClassToken::class, 'abstract class');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'AbstractClass2');
-        $this->assertToken($lexer->next(), ImplementsToken::class, 'implements');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'Interface2');
+        $this->assertToken($tokens->next(), InterfaceToken::class, 'interface');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'Interface');
 
-        $this->assertToken($lexer->next(), ClassToken::class, 'class');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'Class2');
-        $this->assertToken($lexer->next(), ExtendsToken::class, 'extends');
-        $this->assertToken($lexer->next(), ElementValueToken::class, 'AbstractClass2');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'AbstractClass');
+        $this->assertToken($tokens->next(), LeftArrowToken::class, '<|--');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'Class');
 
-        $this->assertToken($lexer->next(), CloseCurlyBracketToken::class, '}');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'AbstractClass');
+        $this->assertToken($tokens->next(), RightArrowToken::class, '..|>');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'Interface');
 
-        self::assertInstanceOf(EndToken::class, $lexer->next());
+        $this->assertToken($tokens->next(), PackageToken::class, 'package');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'Package');
+        $this->assertToken($tokens->next(), OpenCurlyBracketToken::class, '{');
+
+        $this->assertToken($tokens->next(), InterfaceToken::class, 'interface');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'Interface2');
+
+        $this->assertToken($tokens->next(), AbstractClassToken::class, 'abstract class');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'AbstractClass2');
+        $this->assertToken($tokens->next(), ImplementsToken::class, 'implements');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'Interface2');
+
+        $this->assertToken($tokens->next(), ClassToken::class, 'class');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'Class2');
+        $this->assertToken($tokens->next(), ExtendsToken::class, 'extends');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'AbstractClass2');
+
+        $this->assertToken($tokens->next(), CloseCurlyBracketToken::class, '}');
+
+        self::assertInstanceOf(EndToken::class, $tokens->next());
     }
 
     private function assertToken(Token $token, string $class, string $value): void

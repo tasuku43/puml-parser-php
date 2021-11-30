@@ -1,5 +1,9 @@
 @startuml
-class Class
+class Class {
+    + publicProperty
+    # protectedProperty
+    - privateProperty
+}
 abstract class AbstractClass
 interface Interface
 
