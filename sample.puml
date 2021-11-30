@@ -1,0 +1,16 @@
+@startuml
+package Lexer {
+    interface Tokenizeable
+    package Lexer/Arrow {
+        abstract class ArrowTokenizer implements Tokenizeable
+        class LeftArrowTokenizer {
+            + publicProperty : array
+            # protectedProperty : string
+            - privateProperty
+        }
+    }
+
+    LeftArrowTokenizer--|>ArrowTokenizer
+    NoneDefinitionClass ..|> Tokenizeable
+}
+@enduml

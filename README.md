@@ -1,6 +1,6 @@
 # PlantUML parser for PHP
 ## Overview
-This package builds AST of class definitions from plantuml files.
+This package builds AST of class definitions from plantuml files. This package works only with php.
 
 ## Installation
 Via Composer
@@ -16,7 +16,11 @@ package Lexer {
     interface Tokenizeable
     package Lexer/Arrow {
         abstract class ArrowTokenizer implements Tokenizeable
-        class LeftArrowTokenizer
+        class LeftArrowTokenizer {
+            + publicProperty : array
+            # protectedProperty : string
+            - privateProperty
+        }
     }
 
     LeftArrowTokenizer--|>ArrowTokenizer
@@ -26,17 +30,44 @@ package Lexer {
 ```
 Basically, it is assumed that each class definition will be manipulated after it is converted to DTO.
 ```php
-$parser      = new PumlParser\Parser\Parser();
-$difinitions = $parser->parse('/path/to/sample.puml')->toDtos();
+<?php
 
-foreach ($difinitions as $difinition) {
-    /**
-     * Code example of using a parsed class definition...
-     */
-    echo $difinition->getPackage();
-    echo $difinition->getName();
-    echo $difinition->getPackage();
+use PumlParser\Lexer\Lexer;
+use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Parser\Parser;
+
+$lexer  = new Lexer(new PumlTokenizer());
+$parser = new Parser($lexer);
+$ast    = $parser->parse(__DIR__ . '/sample.puml');
+
+foreach ($ast->toDtos() as $difinition) {
+    echo "----------\n";
+
+    echo "name: " . $difinition->getName() . "\n";
+    echo "package: " . $difinition->getPackage() . "\n";
+
+    foreach ($difinition->getProperties() as $property) {
+        echo "property name: " . $property->getName() . " , visibility:  " . $property->getVisibility() . "\n";
+    }
 }
+```
+```shell
+$ php sample.php
+----------
+name: Tokenizeable
+package: Lexer
+----------
+name: ArrowTokenizer
+package: Lexer\Arrow
+----------
+name: LeftArrowTokenizer
+package: Lexer\Arrow
+property name: publicProperty , visibility:  public
+property name: protectedProperty , visibility:  protected
+property name: privateProperty , visibility:  private
+----------
+name: NoneDefinitionClass
+package: Lexer
 ```
 
 ---
@@ -44,21 +75,30 @@ foreach ($difinitions as $difinition) {
 Support for three parsing results. They are json, array, and Dto.
 ```php
 <?php
-$parser = new PumlParser\Parser\Parser();
-$ast    = $parser->parse('/path/to/sample.puml');
+
+use PumlParser\Lexer\Lexer;
+use PumlParser\Lexer\PumlTokenizer;
+use PumlParser\Parser\Parser;
+
+$lexer  = new Lexer(new PumlTokenizer());
+$parser = new Parser($lexer);
+$ast    = $parser->parse(__DIR__ . '/sample.puml');
 ```
 <details><summary>dump $ast->toDtos()</summary><div>
 
 ```shell
-array(6) {
+array(4) {
   [0]=>
-  object(PumlParser\Dto\Difinition)#52 (5) {
+  object(PumlParser\Dto\Difinition)#59 (6) {
     ["name":"PumlParser\Dto\Difinition":private]=>
     string(12) "Tokenizeable"
     ["type":"PumlParser\Dto\Difinition":private]=>
     string(9) "interface"
     ["package":"PumlParser\Dto\Difinition":private]=>
     string(5) "Lexer"
+    ["properties":"PumlParser\Dto\Difinition":private]=>
+    array(0) {
+    }
     ["parents":"PumlParser\Dto\Difinition":private]=>
     array(0) {
     }
@@ -67,26 +107,32 @@ array(6) {
     }
   }
   [1]=>
-  object(PumlParser\Dto\Difinition)#61 (5) {
+  object(PumlParser\Dto\Difinition)#62 (6) {
     ["name":"PumlParser\Dto\Difinition":private]=>
     string(14) "ArrowTokenizer"
     ["type":"PumlParser\Dto\Difinition":private]=>
     string(14) "abstract class"
     ["package":"PumlParser\Dto\Difinition":private]=>
     string(11) "Lexer\Arrow"
+    ["properties":"PumlParser\Dto\Difinition":private]=>
+    array(0) {
+    }
     ["parents":"PumlParser\Dto\Difinition":private]=>
     array(0) {
     }
     ["interfaces":"PumlParser\Dto\Difinition":private]=>
     array(1) {
       [0]=>
-      object(PumlParser\Dto\Difinition)#64 (5) {
+      object(PumlParser\Dto\Difinition)#46 (6) {
         ["name":"PumlParser\Dto\Difinition":private]=>
         string(12) "Tokenizeable"
         ["type":"PumlParser\Dto\Difinition":private]=>
         string(9) "interface"
         ["package":"PumlParser\Dto\Difinition":private]=>
         string(5) "Lexer"
+        ["properties":"PumlParser\Dto\Difinition":private]=>
+        array(0) {
+        }
         ["parents":"PumlParser\Dto\Difinition":private]=>
         array(0) {
         }
@@ -97,36 +143,66 @@ array(6) {
     }
   }
   [2]=>
-  object(PumlParser\Dto\Difinition)#63 (5) {
+  object(PumlParser\Dto\Difinition)#61 (6) {
     ["name":"PumlParser\Dto\Difinition":private]=>
     string(18) "LeftArrowTokenizer"
     ["type":"PumlParser\Dto\Difinition":private]=>
     string(5) "class"
     ["package":"PumlParser\Dto\Difinition":private]=>
     string(11) "Lexer\Arrow"
+    ["properties":"PumlParser\Dto\Difinition":private]=>
+    array(3) {
+      [0]=>
+      object(PumlParser\Dto\PropertyDifinition)#34 (2) {
+        ["name":"PumlParser\Dto\PropertyDifinition":private]=>
+        string(14) "publicProperty"
+        ["visibility":"PumlParser\Dto\PropertyDifinition":private]=>
+        string(6) "public"
+      }
+      [1]=>
+      object(PumlParser\Dto\PropertyDifinition)#33 (2) {
+        ["name":"PumlParser\Dto\PropertyDifinition":private]=>
+        string(17) "protectedProperty"
+        ["visibility":"PumlParser\Dto\PropertyDifinition":private]=>
+        string(9) "protected"
+      }
+      [2]=>
+      object(PumlParser\Dto\PropertyDifinition)#60 (2) {
+        ["name":"PumlParser\Dto\PropertyDifinition":private]=>
+        string(15) "privateProperty"
+        ["visibility":"PumlParser\Dto\PropertyDifinition":private]=>
+        string(7) "private"
+      }
+    }
     ["parents":"PumlParser\Dto\Difinition":private]=>
     array(1) {
       [0]=>
-      object(PumlParser\Dto\Difinition)#66 (5) {
+      object(PumlParser\Dto\Difinition)#26 (6) {
         ["name":"PumlParser\Dto\Difinition":private]=>
         string(14) "ArrowTokenizer"
         ["type":"PumlParser\Dto\Difinition":private]=>
         string(14) "abstract class"
         ["package":"PumlParser\Dto\Difinition":private]=>
         string(11) "Lexer\Arrow"
+        ["properties":"PumlParser\Dto\Difinition":private]=>
+        array(0) {
+        }
         ["parents":"PumlParser\Dto\Difinition":private]=>
         array(0) {
         }
         ["interfaces":"PumlParser\Dto\Difinition":private]=>
         array(1) {
           [0]=>
-          object(PumlParser\Dto\Difinition)#69 (5) {
+          object(PumlParser\Dto\Difinition)#57 (6) {
             ["name":"PumlParser\Dto\Difinition":private]=>
             string(12) "Tokenizeable"
             ["type":"PumlParser\Dto\Difinition":private]=>
             string(9) "interface"
             ["package":"PumlParser\Dto\Difinition":private]=>
             string(5) "Lexer"
+            ["properties":"PumlParser\Dto\Difinition":private]=>
+            array(0) {
+            }
             ["parents":"PumlParser\Dto\Difinition":private]=>
             array(0) {
             }
@@ -142,101 +218,32 @@ array(6) {
     }
   }
   [3]=>
-  object(PumlParser\Dto\Difinition)#65 (5) {
-    ["name":"PumlParser\Dto\Difinition":private]=>
-    string(21) "CurlyBracketTokenizer"
-    ["type":"PumlParser\Dto\Difinition":private]=>
-    string(14) "abstract class"
-    ["package":"PumlParser\Dto\Difinition":private]=>
-    string(18) "Lexer\CurlyBracket"
-    ["parents":"PumlParser\Dto\Difinition":private]=>
-    array(0) {
-    }
-    ["interfaces":"PumlParser\Dto\Difinition":private]=>
-    array(1) {
-      [0]=>
-      object(PumlParser\Dto\Difinition)#70 (5) {
-        ["name":"PumlParser\Dto\Difinition":private]=>
-        string(12) "Tokenizeable"
-        ["type":"PumlParser\Dto\Difinition":private]=>
-        string(9) "interface"
-        ["package":"PumlParser\Dto\Difinition":private]=>
-        string(5) "Lexer"
-        ["parents":"PumlParser\Dto\Difinition":private]=>
-        array(0) {
-        }
-        ["interfaces":"PumlParser\Dto\Difinition":private]=>
-        array(0) {
-        }
-      }
-    }
-  }
-  [4]=>
-  object(PumlParser\Dto\Difinition)#53 (5) {
-    ["name":"PumlParser\Dto\Difinition":private]=>
-    string(21) "OpenCurlyBracketToken"
-    ["type":"PumlParser\Dto\Difinition":private]=>
-    string(5) "class"
-    ["package":"PumlParser\Dto\Difinition":private]=>
-    string(18) "Lexer\CurlyBracket"
-    ["parents":"PumlParser\Dto\Difinition":private]=>
-    array(1) {
-      [0]=>
-      object(PumlParser\Dto\Difinition)#72 (5) {
-        ["name":"PumlParser\Dto\Difinition":private]=>
-        string(21) "CurlyBracketTokenizer"
-        ["type":"PumlParser\Dto\Difinition":private]=>
-        string(14) "abstract class"
-        ["package":"PumlParser\Dto\Difinition":private]=>
-        string(18) "Lexer\CurlyBracket"
-        ["parents":"PumlParser\Dto\Difinition":private]=>
-        array(0) {
-        }
-        ["interfaces":"PumlParser\Dto\Difinition":private]=>
-        array(1) {
-          [0]=>
-          object(PumlParser\Dto\Difinition)#74 (5) {
-            ["name":"PumlParser\Dto\Difinition":private]=>
-            string(12) "Tokenizeable"
-            ["type":"PumlParser\Dto\Difinition":private]=>
-            string(9) "interface"
-            ["package":"PumlParser\Dto\Difinition":private]=>
-            string(5) "Lexer"
-            ["parents":"PumlParser\Dto\Difinition":private]=>
-            array(0) {
-            }
-            ["interfaces":"PumlParser\Dto\Difinition":private]=>
-            array(0) {
-            }
-          }
-        }
-      }
-    }
-    ["interfaces":"PumlParser\Dto\Difinition":private]=>
-    array(0) {
-    }
-  }
-  [5]=>
-  object(PumlParser\Dto\Difinition)#71 (5) {
+  object(PumlParser\Dto\Difinition)#41 (6) {
     ["name":"PumlParser\Dto\Difinition":private]=>
     string(19) "NoneDefinitionClass"
     ["type":"PumlParser\Dto\Difinition":private]=>
     string(5) "class"
     ["package":"PumlParser\Dto\Difinition":private]=>
     string(5) "Lexer"
+    ["properties":"PumlParser\Dto\Difinition":private]=>
+    array(0) {
+    }
     ["parents":"PumlParser\Dto\Difinition":private]=>
     array(0) {
     }
     ["interfaces":"PumlParser\Dto\Difinition":private]=>
     array(1) {
       [0]=>
-      object(PumlParser\Dto\Difinition)#75 (5) {
+      object(PumlParser\Dto\Difinition)#56 (6) {
         ["name":"PumlParser\Dto\Difinition":private]=>
         string(12) "Tokenizeable"
         ["type":"PumlParser\Dto\Difinition":private]=>
         string(9) "interface"
         ["package":"PumlParser\Dto\Difinition":private]=>
         string(5) "Lexer"
+        ["properties":"PumlParser\Dto\Difinition":private]=>
+        array(0) {
+        }
         ["parents":"PumlParser\Dto\Difinition":private]=>
         array(0) {
         }
@@ -257,6 +264,7 @@ array(6) {
         "interface": {
             "Name": "Tokenizeable",
             "Package": "Lexer",
+            "Propaties": [],
             "Parents": [],
             "Interfaces": []
         }
@@ -265,12 +273,14 @@ array(6) {
         "abstract class": {
             "Name": "ArrowTokenizer",
             "Package": "Lexer/Arrow",
+            "Propaties": [],
             "Parents": [],
             "Interfaces": [
                 {
                     "interface": {
                         "Name": "Tokenizeable",
                         "Package": "Lexer",
+                        "Propaties": [],
                         "Parents": [],
                         "Interfaces": []
                     }
@@ -282,60 +292,33 @@ array(6) {
         "class": {
             "Name": "LeftArrowTokenizer",
             "Package": "Lexer/Arrow",
+            "Propaties": [
+                {
+                    "name": "publicProperty",
+                    "visibility": "public"
+                },
+                {
+                    "name": "protectedProperty",
+                    "visibility": "protected"
+                },
+                {
+                    "name": "privateProperty",
+                    "visibility": "private"
+                }
+            ],
             "Parents": [
                 {
                     "abstract class": {
                         "Name": "ArrowTokenizer",
                         "Package": "Lexer/Arrow",
+                        "Propaties": [],
                         "Parents": [],
                         "Interfaces": [
                             {
                                 "interface": {
                                     "Name": "Tokenizeable",
                                     "Package": "Lexer",
-                                    "Parents": [],
-                                    "Interfaces": []
-                                }
-                            }
-                        ]
-                    }
-                }
-            ],
-            "Interfaces": []
-        }
-    },
-    {
-        "abstract class": {
-            "Name": "CurlyBracketTokenizer",
-            "Package": "Lexer/CurlyBracket",
-            "Parents": [],
-            "Interfaces": [
-                {
-                    "interface": {
-                        "Name": "Tokenizeable",
-                        "Package": "Lexer",
-                        "Parents": [],
-                        "Interfaces": []
-                    }
-                }
-            ]
-        }
-    },
-    {
-        "class": {
-            "Name": "OpenCurlyBracketToken",
-            "Package": "Lexer/CurlyBracket",
-            "Parents": [
-                {
-                    "abstract class": {
-                        "Name": "CurlyBracketTokenizer",
-                        "Package": "Lexer/CurlyBracket",
-                        "Parents": [],
-                        "Interfaces": [
-                            {
-                                "interface": {
-                                    "Name": "Tokenizeable",
-                                    "Package": "Lexer",
+                                    "Propaties": [],
                                     "Parents": [],
                                     "Interfaces": []
                                 }
@@ -351,12 +334,14 @@ array(6) {
         "class": {
             "Name": "NoneDefinitionClass",
             "Package": "Lexer",
+            "Propaties": [],
             "Parents": [],
             "Interfaces": [
                 {
                     "interface": {
                         "Name": "Tokenizeable",
                         "Package": "Lexer",
+                        "Propaties": [],
                         "Parents": [],
                         "Interfaces": []
                     }
@@ -370,15 +355,18 @@ array(6) {
 <details><summary>dump $ast->toArray()</summary><div>
 
 ```shell
-array(6) {
+array(4) {
   [0]=>
   array(1) {
     ["interface"]=>
-    array(4) {
+    array(5) {
       ["Name"]=>
       string(12) "Tokenizeable"
       ["Package"]=>
       string(5) "Lexer"
+      ["Propaties"]=>
+      array(0) {
+      }
       ["Parents"]=>
       array(0) {
       }
@@ -390,11 +378,14 @@ array(6) {
   [1]=>
   array(1) {
     ["abstract class"]=>
-    array(4) {
+    array(5) {
       ["Name"]=>
       string(14) "ArrowTokenizer"
       ["Package"]=>
       string(11) "Lexer/Arrow"
+      ["Propaties"]=>
+      array(0) {
+      }
       ["Parents"]=>
       array(0) {
       }
@@ -403,11 +394,14 @@ array(6) {
         [0]=>
         array(1) {
           ["interface"]=>
-          array(4) {
+          array(5) {
             ["Name"]=>
             string(12) "Tokenizeable"
             ["Package"]=>
             string(5) "Lexer"
+            ["Propaties"]=>
+            array(0) {
+            }
             ["Parents"]=>
             array(0) {
             }
@@ -422,21 +416,48 @@ array(6) {
   [2]=>
   array(1) {
     ["class"]=>
-    array(4) {
+    array(5) {
       ["Name"]=>
       string(18) "LeftArrowTokenizer"
       ["Package"]=>
       string(11) "Lexer/Arrow"
+      ["Propaties"]=>
+      array(3) {
+        [0]=>
+        array(2) {
+          ["name"]=>
+          string(14) "publicProperty"
+          ["visibility"]=>
+          string(6) "public"
+        }
+        [1]=>
+        array(2) {
+          ["name"]=>
+          string(17) "protectedProperty"
+          ["visibility"]=>
+          string(9) "protected"
+        }
+        [2]=>
+        array(2) {
+          ["name"]=>
+          string(15) "privateProperty"
+          ["visibility"]=>
+          string(7) "private"
+        }
+      }
       ["Parents"]=>
       array(1) {
         [0]=>
         array(1) {
           ["abstract class"]=>
-          array(4) {
+          array(5) {
             ["Name"]=>
             string(14) "ArrowTokenizer"
             ["Package"]=>
             string(11) "Lexer/Arrow"
+            ["Propaties"]=>
+            array(0) {
+            }
             ["Parents"]=>
             array(0) {
             }
@@ -445,11 +466,14 @@ array(6) {
               [0]=>
               array(1) {
                 ["interface"]=>
-                array(4) {
+                array(5) {
                   ["Name"]=>
                   string(12) "Tokenizeable"
                   ["Package"]=>
                   string(5) "Lexer"
+                  ["Propaties"]=>
+                  array(0) {
+                  }
                   ["Parents"]=>
                   array(0) {
                   }
@@ -469,92 +493,15 @@ array(6) {
   }
   [3]=>
   array(1) {
-    ["abstract class"]=>
-    array(4) {
-      ["Name"]=>
-      string(21) "CurlyBracketTokenizer"
-      ["Package"]=>
-      string(18) "Lexer/CurlyBracket"
-      ["Parents"]=>
-      array(0) {
-      }
-      ["Interfaces"]=>
-      array(1) {
-        [0]=>
-        array(1) {
-          ["interface"]=>
-          array(4) {
-            ["Name"]=>
-            string(12) "Tokenizeable"
-            ["Package"]=>
-            string(5) "Lexer"
-            ["Parents"]=>
-            array(0) {
-            }
-            ["Interfaces"]=>
-            array(0) {
-            }
-          }
-        }
-      }
-    }
-  }
-  [4]=>
-  array(1) {
     ["class"]=>
-    array(4) {
-      ["Name"]=>
-      string(21) "OpenCurlyBracketToken"
-      ["Package"]=>
-      string(18) "Lexer/CurlyBracket"
-      ["Parents"]=>
-      array(1) {
-        [0]=>
-        array(1) {
-          ["abstract class"]=>
-          array(4) {
-            ["Name"]=>
-            string(21) "CurlyBracketTokenizer"
-            ["Package"]=>
-            string(18) "Lexer/CurlyBracket"
-            ["Parents"]=>
-            array(0) {
-            }
-            ["Interfaces"]=>
-            array(1) {
-              [0]=>
-              array(1) {
-                ["interface"]=>
-                array(4) {
-                  ["Name"]=>
-                  string(12) "Tokenizeable"
-                  ["Package"]=>
-                  string(5) "Lexer"
-                  ["Parents"]=>
-                  array(0) {
-                  }
-                  ["Interfaces"]=>
-                  array(0) {
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      ["Interfaces"]=>
-      array(0) {
-      }
-    }
-  }
-  [5]=>
-  array(1) {
-    ["class"]=>
-    array(4) {
+    array(5) {
       ["Name"]=>
       string(19) "NoneDefinitionClass"
       ["Package"]=>
       string(5) "Lexer"
+      ["Propaties"]=>
+      array(0) {
+      }
       ["Parents"]=>
       array(0) {
       }
@@ -563,11 +510,14 @@ array(6) {
         [0]=>
         array(1) {
           ["interface"]=>
-          array(4) {
+          array(5) {
             ["Name"]=>
             string(12) "Tokenizeable"
             ["Package"]=>
             string(5) "Lexer"
+            ["Propaties"]=>
+            array(0) {
+            }
             ["Parents"]=>
             array(0) {
             }
