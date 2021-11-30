@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token;
 
+use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
+use PumlParser\Lexer\Token\Visibility\VisibilityToken;
+
 class Tokens implements \Iterator
 {
     /**
@@ -22,6 +25,33 @@ class Tokens implements \Iterator
         $this->position++;
 
         return $this->current();
+    }
+
+    public function nextTo(string $tokenType): Token
+    {
+        while (($token = $this->next()) !== null) {
+            if ($token instanceof $tokenType) return $token;
+        }
+
+        throw new \InvalidArgumentException();
+    }
+
+    public function nextElementValueToken(): ElementValueToken
+    {
+        $token = $this->nextTo(ElementValueToken::class);
+
+        assert($token instanceof ElementValueToken);
+
+        return $token;
+    }
+
+    public function nextVisibilityToken(): VisibilityToken
+    {
+        $token = $this->nextTo(VisibilityToken::class);
+
+        assert($token instanceof VisibilityToken);
+
+        return $token;
     }
 
     public function getPrevToken(int $backStepNum = 1): Token
@@ -55,18 +85,8 @@ class Tokens implements \Iterator
     {
         return isset($this->values[$this->position]);
     }
-
     public function rewind(): void
     {
         $this->position = 0;
-    }
-
-    public function nextTo(string $tokenType): Token
-    {
-        while (($token = $this->next()) !== null) {
-            if ($token instanceof $tokenType) return $token;
-        }
-
-        throw new \InvalidArgumentException();
     }
 }
