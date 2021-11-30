@@ -9,6 +9,7 @@ class Difinition
         private string $name,
         private string $type,
         private string $package,
+        private array $properties,
         private array $parents,
         private array $interfaces
     )
@@ -59,5 +60,13 @@ class Difinition
         return array_map(function (Difinition $difinition) {
             return $difinition->getName();
         }, $this->interfaces);
+    }
+
+    /**
+     * @return PropertyDifinition[]
+     */
+    public function getProperties(): array
+    {
+        return $this->properties;
     }
 }
