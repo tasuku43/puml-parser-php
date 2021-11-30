@@ -12,12 +12,12 @@ class Tokens implements \Iterator
 
     private int $position = 0;
 
-    public function current(): Token
+    public function current(): ?Token
     {
-        return $this->values[$this->position];
+        return $this->values[$this->position] ?? null;
     }
 
-    public function next(): Token
+    public function next(): ?Token
     {
         $this->position++;
 
@@ -59,5 +59,14 @@ class Tokens implements \Iterator
     public function rewind(): void
     {
         $this->position = 0;
+    }
+
+    public function nextTo(string $tokenType): Token
+    {
+        while (($token = $this->next()) !== null) {
+            if ($token instanceof $tokenType) return $token;
+        }
+
+        throw new \InvalidArgumentException();
     }
 }

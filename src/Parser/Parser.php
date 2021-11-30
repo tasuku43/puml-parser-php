@@ -150,7 +150,7 @@ class Parser
 
             while (!($token = $this->tokens->next()) instanceof CloseCurlyBracketToken) {
                 if (!$token instanceof VisibilityToken) {
-                    throw new ParserException('property must be specified for visibility.');
+                    $token = $this->tokens->nextTo(VisibilityToken::class);
                 }
 
                 $propertyNameToken = $this->tokens->next();
