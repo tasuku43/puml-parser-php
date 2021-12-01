@@ -35,6 +35,7 @@ class ElementTokenizer implements Tokenizeable
             str_starts_with($contents, AbstractClassToken::SYMBOL),
             str_starts_with($contents, AbstractToken::SYMBOL) => new AbstractClassToken(),
             str_starts_with($contents, InterfaceToken::SYMBOL) => new InterfaceToken(),
+            str_starts_with($contents, EnumToken::SYMBOL) => new EnumToken(),
             default => throw new TokenizeException(sprintf('Parsing failed. contents: %s', $contents))
         };
     }
