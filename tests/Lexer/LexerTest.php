@@ -84,9 +84,9 @@ class LexerTest extends TestCase
         $this->assertToken($tokens->next(), EnumToken::class, 'enum');
         $this->assertToken($tokens->next(), ElementValueToken::class, 'Enum');
         $this->assertToken($tokens->next(), OpenCurlyBracketToken::class, '{');
-        $this->assertToken($tokens->next(), ElementValueToken::class, 'TYPE1');
-        $this->assertToken($tokens->next(), ElementValueToken::class, 'TYPE2');
-        $this->assertToken($tokens->next(), ElementValueToken::class, 'TYPE3');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'CASE1');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'CASE2');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'CASE3');
         $this->assertToken($tokens->next(), CloseCurlyBracketToken::class, '}');
 
         $this->assertToken($tokens->next(), CloseCurlyBracketToken::class, '}');
