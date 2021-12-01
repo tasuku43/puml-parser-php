@@ -3,7 +3,12 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\Element;
 
-class NamespaceToken extends ElementToken
+class NamespaceToken implements ElementToken
 {
-    protected string $value = self::NAMESPACE_;
+    public const SYMBOL = 'namespace';
+
+    public function getValue(): string
+    {
+        return self::SYMBOL;
+    }
 }
