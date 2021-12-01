@@ -46,8 +46,14 @@ foreach ($ast->toDtos() as $difinition) {
     echo "name: " . $difinition->getName() . "\n";
     echo "package: " . $difinition->getPackage() . "\n";
 
-    foreach ($difinition->getProperties() as $property) {
-        echo "property name: " . $property->getName() . " , visibility:  " . $property->getVisibility() . "\n";
+    if ($difinition->getType() === 'enum') {
+        foreach ($difinition->getCases() as $case) {
+            echo "case: " . $case . "\n";
+        }
+    } else {
+        foreach ($difinition->getProperties() as $property) {
+            echo "property name: " . $property->getName() . " , visibility:  " . $property->getVisibility() . "\n";
+        }
     }
 }
 ```
@@ -65,6 +71,12 @@ package: Lexer\Arrow
 property name: publicProperty , visibility:  public
 property name: protectedProperty , visibility:  protected
 property name: privateProperty , visibility:  private
+----------
+name: Enum
+package: Lexer
+case: CASE1
+case: CASE2
+case: CASE3
 ----------
 name: NoneDefinitionClass
 package: Lexer
