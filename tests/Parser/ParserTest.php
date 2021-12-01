@@ -153,6 +153,19 @@ class ParserTest extends TestCase
                         ]
                     ]
                 ]
+            ],
+            [
+                'enum' => [
+                    'Name' => 'Enum',
+                    'Package' => '',
+                    'Types' => [
+                        'TYPE1',
+                        'TYPE2',
+                        'TYPE3',
+                    ],
+                    'Parents' => [],
+                    'Interfaces' => []
+                ]
             ]
         ], $ast->toArray());
     }
