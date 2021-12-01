@@ -3,19 +3,9 @@ declare(strict_types=1);
 
 namespace PumlParser\Dto;
 
-class PropertyDifinition
+/**
+ * @deprecated tag:v3.0.0 - Will be removed. Use @see \PumlParser\Dto\PropertyDefinition instead
+ */
+class PropertyDifinition extends PropertyDefinition
 {
-    public function __construct(private string $name, private string $visibility)
-    {
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getVisibility(): string
-    {
-        return $this->visibility;
-    }
 }

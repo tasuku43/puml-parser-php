@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PumlParser\Node;
 
-use PumlParser\Dto\PropertyDifinition;
+use PumlParser\Dto\PropertyDefinition;
 
 class Property
 {
@@ -19,9 +19,9 @@ class Property
         ];
     }
 
-    public function toDto(): PropertyDifinition
+    public function toDto(): PropertyDefinition
     {
-        return new PropertyDifinition(
+        return new PropertyDefinition(
             $this->name,
             $this->visibility,
         );

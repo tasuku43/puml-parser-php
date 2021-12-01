@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PumlParser\Node;
 
-use PumlParser\Dto\Difinition;
+use PumlParser\Dto\Definition;
 
 abstract class ClassLike implements Node
 {
@@ -60,9 +60,9 @@ abstract class ClassLike implements Node
         return json_encode($this->toArray());
     }
 
-    public function toDto(): Difinition
+    public function toDto(): Definition
     {
-        return new Difinition(
+        return new Definition(
             $this->name,
             $this->getType(),
             $this->package,

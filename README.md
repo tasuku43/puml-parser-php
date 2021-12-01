@@ -40,13 +40,13 @@ $lexer  = new Lexer(new PumlTokenizer());
 $parser = new Parser($lexer);
 $ast    = $parser->parse(__DIR__ . '/sample.puml');
 
-foreach ($ast->toDtos() as $difinition) {
+foreach ($ast->toDtos() as $definition) {
     echo "----------\n";
 
-    echo "name: " . $difinition->getName() . "\n";
-    echo "package: " . $difinition->getPackage() . "\n";
+    echo "name: " . $definition->getName() . "\n";
+    echo "package: " . $definition->getPackage() . "\n";
 
-    foreach ($difinition->getProperties() as $property) {
+    foreach ($definition->getProperties() as $property) {
         echo "property name: " . $property->getName() . " , visibility:  " . $property->getVisibility() . "\n";
     }
 }
@@ -89,165 +89,165 @@ $ast    = $parser->parse(__DIR__ . '/sample.puml');
 ```shell
 array(4) {
   [0]=>
-  object(PumlParser\Dto\Difinition)#59 (6) {
-    ["name":"PumlParser\Dto\Difinition":private]=>
+  object(PumlParser\Dto\Definition)#59 (6) {
+    ["name":"PumlParser\Dto\Definition":private]=>
     string(12) "Tokenizeable"
-    ["type":"PumlParser\Dto\Difinition":private]=>
+    ["type":"PumlParser\Dto\Definition":private]=>
     string(9) "interface"
-    ["package":"PumlParser\Dto\Difinition":private]=>
+    ["package":"PumlParser\Dto\Definition":private]=>
     string(5) "Lexer"
-    ["properties":"PumlParser\Dto\Difinition":private]=>
+    ["properties":"PumlParser\Dto\Definition":private]=>
     array(0) {
     }
-    ["parents":"PumlParser\Dto\Difinition":private]=>
+    ["parents":"PumlParser\Dto\Definition":private]=>
     array(0) {
     }
-    ["interfaces":"PumlParser\Dto\Difinition":private]=>
+    ["interfaces":"PumlParser\Dto\Definition":private]=>
     array(0) {
     }
   }
   [1]=>
-  object(PumlParser\Dto\Difinition)#62 (6) {
-    ["name":"PumlParser\Dto\Difinition":private]=>
+  object(PumlParser\Dto\Definition)#62 (6) {
+    ["name":"PumlParser\Dto\Definition":private]=>
     string(14) "ArrowTokenizer"
-    ["type":"PumlParser\Dto\Difinition":private]=>
+    ["type":"PumlParser\Dto\Definition":private]=>
     string(14) "abstract class"
-    ["package":"PumlParser\Dto\Difinition":private]=>
+    ["package":"PumlParser\Dto\Definition":private]=>
     string(11) "Lexer\Arrow"
-    ["properties":"PumlParser\Dto\Difinition":private]=>
+    ["properties":"PumlParser\Dto\Definition":private]=>
     array(0) {
     }
-    ["parents":"PumlParser\Dto\Difinition":private]=>
+    ["parents":"PumlParser\Dto\Definition":private]=>
     array(0) {
     }
-    ["interfaces":"PumlParser\Dto\Difinition":private]=>
+    ["interfaces":"PumlParser\Dto\Definition":private]=>
     array(1) {
       [0]=>
-      object(PumlParser\Dto\Difinition)#46 (6) {
-        ["name":"PumlParser\Dto\Difinition":private]=>
+      object(PumlParser\Dto\Definition)#46 (6) {
+        ["name":"PumlParser\Dto\Definition":private]=>
         string(12) "Tokenizeable"
-        ["type":"PumlParser\Dto\Difinition":private]=>
+        ["type":"PumlParser\Dto\Definition":private]=>
         string(9) "interface"
-        ["package":"PumlParser\Dto\Difinition":private]=>
+        ["package":"PumlParser\Dto\Definition":private]=>
         string(5) "Lexer"
-        ["properties":"PumlParser\Dto\Difinition":private]=>
+        ["properties":"PumlParser\Dto\Definition":private]=>
         array(0) {
         }
-        ["parents":"PumlParser\Dto\Difinition":private]=>
+        ["parents":"PumlParser\Dto\Definition":private]=>
         array(0) {
         }
-        ["interfaces":"PumlParser\Dto\Difinition":private]=>
+        ["interfaces":"PumlParser\Dto\Definition":private]=>
         array(0) {
         }
       }
     }
   }
   [2]=>
-  object(PumlParser\Dto\Difinition)#61 (6) {
-    ["name":"PumlParser\Dto\Difinition":private]=>
+  object(PumlParser\Dto\Definition)#61 (6) {
+    ["name":"PumlParser\Dto\Definition":private]=>
     string(18) "LeftArrowTokenizer"
-    ["type":"PumlParser\Dto\Difinition":private]=>
+    ["type":"PumlParser\Dto\Definition":private]=>
     string(5) "class"
-    ["package":"PumlParser\Dto\Difinition":private]=>
+    ["package":"PumlParser\Dto\Definition":private]=>
     string(11) "Lexer\Arrow"
-    ["properties":"PumlParser\Dto\Difinition":private]=>
+    ["properties":"PumlParser\Dto\Definition":private]=>
     array(3) {
       [0]=>
-      object(PumlParser\Dto\PropertyDifinition)#34 (2) {
-        ["name":"PumlParser\Dto\PropertyDifinition":private]=>
+      object(PumlParser\Dto\PropertyDefinition)#34 (2) {
+        ["name":"PumlParser\Dto\PropertyDefinition":private]=>
         string(14) "publicProperty"
-        ["visibility":"PumlParser\Dto\PropertyDifinition":private]=>
+        ["visibility":"PumlParser\Dto\PropertyDefinition":private]=>
         string(6) "public"
       }
       [1]=>
-      object(PumlParser\Dto\PropertyDifinition)#33 (2) {
-        ["name":"PumlParser\Dto\PropertyDifinition":private]=>
+      object(PumlParser\Dto\PropertyDefinition)#33 (2) {
+        ["name":"PumlParser\Dto\PropertyDefinition":private]=>
         string(17) "protectedProperty"
-        ["visibility":"PumlParser\Dto\PropertyDifinition":private]=>
+        ["visibility":"PumlParser\Dto\PropertyDefinition":private]=>
         string(9) "protected"
       }
       [2]=>
-      object(PumlParser\Dto\PropertyDifinition)#60 (2) {
-        ["name":"PumlParser\Dto\PropertyDifinition":private]=>
+      object(PumlParser\Dto\PropertyDefinition)#60 (2) {
+        ["name":"PumlParser\Dto\PropertyDefinition":private]=>
         string(15) "privateProperty"
-        ["visibility":"PumlParser\Dto\PropertyDifinition":private]=>
+        ["visibility":"PumlParser\Dto\PropertyDefinition":private]=>
         string(7) "private"
       }
     }
-    ["parents":"PumlParser\Dto\Difinition":private]=>
+    ["parents":"PumlParser\Dto\Definition":private]=>
     array(1) {
       [0]=>
-      object(PumlParser\Dto\Difinition)#26 (6) {
-        ["name":"PumlParser\Dto\Difinition":private]=>
+      object(PumlParser\Dto\Definition)#26 (6) {
+        ["name":"PumlParser\Dto\Definition":private]=>
         string(14) "ArrowTokenizer"
-        ["type":"PumlParser\Dto\Difinition":private]=>
+        ["type":"PumlParser\Dto\Definition":private]=>
         string(14) "abstract class"
-        ["package":"PumlParser\Dto\Difinition":private]=>
+        ["package":"PumlParser\Dto\Definition":private]=>
         string(11) "Lexer\Arrow"
-        ["properties":"PumlParser\Dto\Difinition":private]=>
+        ["properties":"PumlParser\Dto\Definition":private]=>
         array(0) {
         }
-        ["parents":"PumlParser\Dto\Difinition":private]=>
+        ["parents":"PumlParser\Dto\Definition":private]=>
         array(0) {
         }
-        ["interfaces":"PumlParser\Dto\Difinition":private]=>
+        ["interfaces":"PumlParser\Dto\Definition":private]=>
         array(1) {
           [0]=>
-          object(PumlParser\Dto\Difinition)#57 (6) {
-            ["name":"PumlParser\Dto\Difinition":private]=>
+          object(PumlParser\Dto\Definition)#57 (6) {
+            ["name":"PumlParser\Dto\Definition":private]=>
             string(12) "Tokenizeable"
-            ["type":"PumlParser\Dto\Difinition":private]=>
+            ["type":"PumlParser\Dto\Definition":private]=>
             string(9) "interface"
-            ["package":"PumlParser\Dto\Difinition":private]=>
+            ["package":"PumlParser\Dto\Definition":private]=>
             string(5) "Lexer"
-            ["properties":"PumlParser\Dto\Difinition":private]=>
+            ["properties":"PumlParser\Dto\Definition":private]=>
             array(0) {
             }
-            ["parents":"PumlParser\Dto\Difinition":private]=>
+            ["parents":"PumlParser\Dto\Definition":private]=>
             array(0) {
             }
-            ["interfaces":"PumlParser\Dto\Difinition":private]=>
+            ["interfaces":"PumlParser\Dto\Definition":private]=>
             array(0) {
             }
           }
         }
       }
     }
-    ["interfaces":"PumlParser\Dto\Difinition":private]=>
+    ["interfaces":"PumlParser\Dto\Definition":private]=>
     array(0) {
     }
   }
   [3]=>
-  object(PumlParser\Dto\Difinition)#41 (6) {
-    ["name":"PumlParser\Dto\Difinition":private]=>
+  object(PumlParser\Dto\Definition)#41 (6) {
+    ["name":"PumlParser\Dto\Definition":private]=>
     string(19) "NoneDefinitionClass"
-    ["type":"PumlParser\Dto\Difinition":private]=>
+    ["type":"PumlParser\Dto\Definition":private]=>
     string(5) "class"
-    ["package":"PumlParser\Dto\Difinition":private]=>
+    ["package":"PumlParser\Dto\Definition":private]=>
     string(5) "Lexer"
-    ["properties":"PumlParser\Dto\Difinition":private]=>
+    ["properties":"PumlParser\Dto\Definition":private]=>
     array(0) {
     }
-    ["parents":"PumlParser\Dto\Difinition":private]=>
+    ["parents":"PumlParser\Dto\Definition":private]=>
     array(0) {
     }
-    ["interfaces":"PumlParser\Dto\Difinition":private]=>
+    ["interfaces":"PumlParser\Dto\Definition":private]=>
     array(1) {
       [0]=>
-      object(PumlParser\Dto\Difinition)#56 (6) {
-        ["name":"PumlParser\Dto\Difinition":private]=>
+      object(PumlParser\Dto\Definition)#56 (6) {
+        ["name":"PumlParser\Dto\Definition":private]=>
         string(12) "Tokenizeable"
-        ["type":"PumlParser\Dto\Difinition":private]=>
+        ["type":"PumlParser\Dto\Definition":private]=>
         string(9) "interface"
-        ["package":"PumlParser\Dto\Difinition":private]=>
+        ["package":"PumlParser\Dto\Definition":private]=>
         string(5) "Lexer"
-        ["properties":"PumlParser\Dto\Difinition":private]=>
+        ["properties":"PumlParser\Dto\Definition":private]=>
         array(0) {
         }
-        ["parents":"PumlParser\Dto\Difinition":private]=>
+        ["parents":"PumlParser\Dto\Definition":private]=>
         array(0) {
         }
-        ["interfaces":"PumlParser\Dto\Difinition":private]=>
+        ["interfaces":"PumlParser\Dto\Definition":private]=>
         array(0) {
         }
       }
