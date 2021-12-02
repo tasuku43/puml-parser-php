@@ -23,6 +23,12 @@ package Lexer {
         }
     }
 
+    enum Enum {
+      CASE1
+      CASE2
+      CASE3
+    }
+
     LeftArrowTokenizer--|>ArrowTokenizer
     NoneDefinitionClass ..|> Tokenizeable
 }
