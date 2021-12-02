@@ -16,6 +16,11 @@ package Lexer {
         CurlyBracketTokenizer..|>Tokenizeable
         CurlyBracketTokenizer<|--OpenCurlyBracketToken
     }
+    enum Enum {
+      CASE1
+      CASE2
+      CASE3
+    }
 
     NoneDefinitionClass ..|> Tokenizeable
 }

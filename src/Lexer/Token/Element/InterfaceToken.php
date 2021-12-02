@@ -3,7 +3,12 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\Element;
 
-class InterfaceToken extends ElementToken
+class InterfaceToken implements ElementToken
 {
-    protected string $value = self::INTERFACE_;
+    public const SYMBOL = 'interface';
+
+    public function getValue(): string
+    {
+        return self::SYMBOL;
+    }
 }

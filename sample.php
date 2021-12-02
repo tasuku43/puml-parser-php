@@ -16,8 +16,14 @@ foreach ($ast->toDtos() as $definition) {
     echo "name: " . $definition->getName() . "\n";
     echo "package: " . $definition->getPackage() . "\n";
 
-    foreach ($definition->getProperties() as $property) {
-        echo "property name: " . $property->getName() . " , visibility:  " . $property->getVisibility() . "\n";
+    if ($definition->getType() === 'enum') {
+        foreach ($definition->getCases() as $case) {
+            echo "case: " . $case . "\n";
+        }
+    } else {
+        foreach ($definition->getProperties() as $property) {
+            echo "property name: " . $property->getName() . " , visibility:  " . $property->getVisibility() . "\n";
+        }
     }
 }
 

@@ -3,7 +3,12 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\Element;
 
-class EnumToken extends ElementToken
+class EnumToken implements ElementToken
 {
-    protected string $value = self::ENUM_;
+    public const SYMBOL = 'enum';
+
+    public function getValue(): string
+    {
+        return self::SYMBOL;
+    }
 }

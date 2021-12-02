@@ -10,6 +10,8 @@ use PumlParser\Lexer\Token\CurlyBracket\CloseCurlyBracketToken;
 use PumlParser\Lexer\Token\CurlyBracket\OpenCurlyBracketToken;
 use PumlParser\Lexer\Token\Element\AbstractClassToken;
 use PumlParser\Lexer\Token\Element\ClassToken;
+use PumlParser\Lexer\Token\Element\ElementToken;
+use PumlParser\Lexer\Token\Element\EnumToken;
 use PumlParser\Lexer\Token\Element\InterfaceToken;
 use PumlParser\Lexer\Token\Element\PackageToken;
 use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
@@ -22,6 +24,7 @@ use PumlParser\Lexer\Token\Tokens;
 use PumlParser\Lexer\Token\Visibility\VisibilityToken;
 use PumlParser\Node\AbstractClass_;
 use PumlParser\Node\Class_;
+use PumlParser\Node\Enum_;
 use PumlParser\Node\Interface_;
 use PumlParser\Node\Node;
 use PumlParser\Node\Nodes;
@@ -67,7 +70,7 @@ class Parser
 
                 $this->parseInPackage($packageNameToken);
                 break;
-            case $token instanceof ClassToken || $token instanceof AbstractClassToken || $token instanceof InterfaceToken:
+            case $token instanceof ClassToken || $token instanceof AbstractClassToken || $token instanceof InterfaceToken || $token instanceof EnumToken:
                 $classLikeNameToken = $this->tokens->nextElementValueToken();
 
                 $this->parseClassLike($token, $classLikeNameToken, $package);
@@ -116,7 +119,7 @@ class Parser
     }
 
     private function parseClassLike(
-        ClassToken|AbstractClassToken|InterfaceToken $elementToken,
+        ElementToken $elementToken,
         ElementValueToken $nameToken,
         string $package = ''
     ): void
@@ -125,32 +128,39 @@ class Parser
             $elementToken instanceof ClassToken => new Class_($nameToken->getValue(), $package),
             $elementToken instanceof AbstractClassToken => new AbstractClass_($nameToken->getValue(), $package),
             $elementToken instanceof InterfaceToken => new Interface_($nameToken->getValue(), $package),
+            $elementToken instanceof EnumToken => new Enum_($nameToken->getValue(), $package),
         };
 
         $this->nodes->add($node);
 
-        switch (true) {
-            case $this->tokens->nextTokenTypeIs(ExtendsToken::class):
-                $parentNameToken = $this->tokens->nextElementValueToken();
+        if ($this->tokens->nextTokenTypeIs(ExtendsToken::class)) {
+            $parentNameToken = $this->tokens->nextElementValueToken();
 
-                $this->parseExtends($nameToken, $parentNameToken, $package);
-                break;
-            case $this->tokens->nextTokenTypeIs(ImplementsToken::class):
-                $parentNameToken = $this->tokens->nextElementValueToken();
+            $this->parseExtends($nameToken, $parentNameToken, $package);
+        }
+        if ($this->tokens->nextTokenTypeIs(ImplementsToken::class)) {
+            $parentNameToken = $this->tokens->nextElementValueToken();
 
-                $this->parseImplements($nameToken, $parentNameToken, $package);
-                break;
+            $this->parseImplements($nameToken, $parentNameToken, $package);
         }
 
         if ($this->tokens->nextTokenTypeIs(OpenCurlyBracketToken::class)) {
+            $this->tokens->next();
+
             while (!$this->tokens->next() instanceof CloseCurlyBracketToken) {
-                $visibilityToken = $this->tokens->current() instanceof VisibilityToken
-                    ? $this->tokens->current()
-                    : $this->tokens->nextVisibilityToken();
+                if ($node instanceof Enum_) {
+                    $caseToken = $this->tokens->current();
 
-                $propertyNameToken = $this->tokens->nextElementValueToken();
+                    $node->addCases($caseToken->getValue());
+                } else {
+                    $visibilityToken = $this->tokens->current() instanceof VisibilityToken
+                        ? $this->tokens->current()
+                        : $this->tokens->nextVisibilityToken();
 
-                $node->addProperty(new Property($propertyNameToken->getValue(), (string)$visibilityToken));
+                    $propertyNameToken = $this->tokens->nextElementValueToken();
+
+                    $node->addProperty(new Property($propertyNameToken->getValue(), (string)$visibilityToken));
+                }
             }
         }
     }

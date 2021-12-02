@@ -13,7 +13,15 @@ class ElementTokenizer implements Tokenizeable
 
     public function parseable(string $contents): bool
     {
-        return (bool) $this->contentsStartsWith($contents, ElementToken::symbols());
+        return (bool) $this->contentsStartsWith($contents, [
+            AbstractClassToken::SYMBOL,
+            AbstractToken::SYMBOL,
+            ClassToken::SYMBOL,
+            EnumToken::SYMBOL,
+            InterfaceToken::SYMBOL,
+            NamespaceToken::SYMBOL,
+            PackageToken::SYMBOL
+        ]);
     }
 
     /**
@@ -22,10 +30,12 @@ class ElementTokenizer implements Tokenizeable
     public function parseForward(string $contents): ElementToken
     {
         return match (true) {
-            str_starts_with($contents, ElementToken::PACKAGE_) => new PackageToken(),
-            str_starts_with($contents, ElementToken::CLASS_) => new ClassToken(),
-            str_starts_with($contents, ElementToken::ABSTRACT_CLASS_) => new AbstractClassToken(),
-            str_starts_with($contents, ElementToken::INTERFACE_) => new InterfaceToken(),
+            str_starts_with($contents, PackageToken::SYMBOL) => new PackageToken(),
+            str_starts_with($contents, ClassToken::SYMBOL) => new ClassToken(),
+            str_starts_with($contents, AbstractClassToken::SYMBOL),
+            str_starts_with($contents, AbstractToken::SYMBOL) => new AbstractClassToken(),
+            str_starts_with($contents, InterfaceToken::SYMBOL) => new InterfaceToken(),
+            str_starts_with($contents, EnumToken::SYMBOL) => new EnumToken(),
             default => throw new TokenizeException(sprintf('Parsing failed. contents: %s', $contents))
         };
     }

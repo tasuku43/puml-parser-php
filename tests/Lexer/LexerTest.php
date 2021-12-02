@@ -12,6 +12,7 @@ use PumlParser\Lexer\Token\CurlyBracket\CloseCurlyBracketToken;
 use PumlParser\Lexer\Token\CurlyBracket\OpenCurlyBracketToken;
 use PumlParser\Lexer\Token\Element\AbstractClassToken;
 use PumlParser\Lexer\Token\Element\ClassToken;
+use PumlParser\Lexer\Token\Element\EnumToken;
 use PumlParser\Lexer\Token\Element\InterfaceToken;
 use PumlParser\Lexer\Token\Element\PackageToken;
 use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
@@ -79,6 +80,14 @@ class LexerTest extends TestCase
         $this->assertToken($tokens->next(), ElementValueToken::class, 'Class2');
         $this->assertToken($tokens->next(), ExtendsToken::class, 'extends');
         $this->assertToken($tokens->next(), ElementValueToken::class, 'AbstractClass2');
+
+        $this->assertToken($tokens->next(), EnumToken::class, 'enum');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'Enum');
+        $this->assertToken($tokens->next(), OpenCurlyBracketToken::class, '{');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'CASE1');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'CASE2');
+        $this->assertToken($tokens->next(), ElementValueToken::class, 'CASE3');
+        $this->assertToken($tokens->next(), CloseCurlyBracketToken::class, '}');
 
         $this->assertToken($tokens->next(), CloseCurlyBracketToken::class, '}');
 

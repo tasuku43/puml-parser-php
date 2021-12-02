@@ -136,6 +136,19 @@ class ParserTest extends TestCase
                 ]
             ],
             [
+                'enum' => [
+                    'Name' => 'Enum',
+                    'Package' => 'Lexer',
+                    'Cases' => [
+                        'CASE1',
+                        'CASE2',
+                        'CASE3',
+                    ],
+                    'Parents' => [],
+                    'Interfaces' => []
+                ]
+            ],
+            [
                 'class' => [
                     'Name' => 'NoneDefinitionClass',
                     'Package' => 'Lexer',

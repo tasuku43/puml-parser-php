@@ -14,5 +14,10 @@ package Package {
     interface Interface2
     abstract class AbstractClass2 implements Interface2
     class Class2 extends AbstractClass2
+    enum Enum {
+      CASE1
+      CASE2
+      CASE3
+    }
 }
 @enduml
