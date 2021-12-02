@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PumlParser\Node;
 
-use PumlParser\Dto\Difinition;
+use PumlParser\Dto\Definition;
 
 interface Node
 {
@@ -11,5 +11,5 @@ interface Node
 
     public function toJson(): string;
 
-    public function toDto(): Difinition;
+    public function toDto(): Definition;
 }

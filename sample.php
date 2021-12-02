@@ -10,13 +10,13 @@ $lexer       = new Lexer(new PumlTokenizer());
 $parser      = new Parser($lexer);
 $ast         = $parser->parse(__DIR__ . '/sample.puml');
 
-foreach ($ast->toDtos() as $difinition) {
+foreach ($ast->toDtos() as $definition) {
     echo "----------\n";
 
-    echo "name: " . $difinition->getName() . "\n";
-    echo "package: " . $difinition->getPackage() . "\n";
+    echo "name: " . $definition->getName() . "\n";
+    echo "package: " . $definition->getPackage() . "\n";
 
-    foreach ($difinition->getProperties() as $property) {
+    foreach ($definition->getProperties() as $property) {
         echo "property name: " . $property->getName() . " , visibility:  " . $property->getVisibility() . "\n";
     }
 }
