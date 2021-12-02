@@ -20,25 +20,24 @@ class Tokens implements \Iterator
         return $this->values[$this->position] ?? null;
     }
 
-    public function next(): ?Token
+    public function next(string $tokenType = ''): ?Token
     {
-        $this->position++;
+        if ($tokenType === '') {
+            $this->position++;
+
+            return $this->current();
+        }
+
+        do {
+            $this->position++;
+        } while (!$this->current() instanceof $tokenType or $this->current() === null);
 
         return $this->current();
     }
 
-    public function nextTo(string $tokenType): Token
-    {
-        while (($token = $this->next()) !== null) {
-            if ($token instanceof $tokenType) return $token;
-        }
-
-        throw new \InvalidArgumentException();
-    }
-
     public function nextElementValueToken(): ElementValueToken
     {
-        $token = $this->nextTo(ElementValueToken::class);
+        $token = $this->next(ElementValueToken::class);
 
         assert($token instanceof ElementValueToken);
 
@@ -47,7 +46,7 @@ class Tokens implements \Iterator
 
     public function nextVisibilityToken(): VisibilityToken
     {
-        $token = $this->nextTo(VisibilityToken::class);
+        $token = $this->next(VisibilityToken::class);
 
         assert($token instanceof VisibilityToken);
 
