@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PumlParser\Node;
 
-use PumlParser\Dto\Difinition;
+use PumlParser\Dto\Definition;
 
 abstract class ClassLike implements Node
 {
@@ -23,7 +23,7 @@ abstract class ClassLike implements Node
 
     abstract public function toArray(): array;
 
-    abstract public function toDto(): Difinition;
+    abstract public function toDto(): Definition;
 
     public function getName(): string
     {

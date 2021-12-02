@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PumlParser\Node;
 
-use PumlParser\Dto\Difinition;
+use PumlParser\Dto\Definition;
 
 class Nodes
 {
@@ -33,7 +33,7 @@ class Nodes
     }
 
     /**
-     * @return Difinition[]
+     * @return Definition[]
      */
     public function toDtos(): array
     {

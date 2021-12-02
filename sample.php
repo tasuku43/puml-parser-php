@@ -10,18 +10,18 @@ $lexer       = new Lexer(new PumlTokenizer());
 $parser      = new Parser($lexer);
 $ast         = $parser->parse(__DIR__ . '/sample.puml');
 
-foreach ($ast->toDtos() as $difinition) {
+foreach ($ast->toDtos() as $Definition) {
     echo "----------\n";
 
-    echo "name: " . $difinition->getName() . "\n";
-    echo "package: " . $difinition->getPackage() . "\n";
+    echo "name: " . $Definition->getName() . "\n";
+    echo "package: " . $Definition->getPackage() . "\n";
 
-    if ($difinition->getType() === 'enum') {
-        foreach ($difinition->getCases() as $case) {
+    if ($Definition->getType() === 'enum') {
+        foreach ($Definition->getCases() as $case) {
             echo "case: " . $case . "\n";
         }
     } else {
-        foreach ($difinition->getProperties() as $property) {
+        foreach ($Definition->getProperties() as $property) {
             echo "property name: " . $property->getName() . " , visibility:  " . $property->getVisibility() . "\n";
         }
     }

@@ -5,7 +5,7 @@ namespace PumlParser\Dto;
 
 use PumlParser\Lexer\Token\Element\EnumToken;
 
-class Difinition
+class Definition
 {
     public function __construct(
         private string $name,

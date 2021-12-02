@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PumlParser\Node;
 
-use PumlParser\Dto\Difinition;
+use PumlParser\Dto\Definition;
 
 final class AbstractClass_ extends ClassLike
 {
@@ -39,9 +39,9 @@ final class AbstractClass_ extends ClassLike
         ];
     }
 
-    public function toDto(): Difinition
+    public function toDto(): Definition
     {
-        return new Difinition(
+        return new Definition(
             name: $this->name,
             type: $this->getType(),
             package: $this->package,
