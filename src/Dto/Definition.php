@@ -45,8 +45,8 @@ class Definition
 
     public function getParentNames(): array
     {
-        return array_map(function (Definition $Definition) {
-            return $Definition->getName();
+        return array_map(function (Definition $definition) {
+            return $definition->getName();
         }, $this->parents);
     }
 
@@ -60,8 +60,8 @@ class Definition
 
     public function getInterfaceNames(): array
     {
-        return array_map(function (Definition $Definition) {
-            return $Definition->getName();
+        return array_map(function (Definition $definition) {
+            return $definition->getName();
         }, $this->interfaces);
     }
 
