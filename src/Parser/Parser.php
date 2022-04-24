@@ -160,10 +160,15 @@ class Parser
                     // Because the property type is not supported.
                     continue;
                 }
-                $propertyNameToken = $this->tokens->nextElementValueToken();
+
+                $propertyNameValues = [$this->tokens->nextElementValueToken()->getValue()];
+
+                while ($this->tokens->getNextToken() instanceof ElementValueToken) {
+                    $propertyNameValues[] = $this->tokens->nextElementValueToken()->getValue();
+                }
 
                 $node->addProperty(new Property(
-                    name: $propertyNameToken->getValue(),
+                    name: implode(' ', $propertyNameValues),
                     visibility: (string) $currentToken
                 ));
             }
