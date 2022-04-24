@@ -144,27 +144,28 @@ class Parser
             $this->parseImplements($nameToken, $parentNameToken, $package);
         }
 
-        if ($this->tokens->nextTokenTypeIs(OpenCurlyBracketToken::class)) {
-            $this->tokens->next();
+        if (!$this->tokens->nextTokenTypeIs(OpenCurlyBracketToken::class)) {
+            return;
+        }
 
-            while (!$this->tokens->next() instanceof CloseCurlyBracketToken) {
-                if ($node instanceof Enum_) {
-                    $caseToken = $this->tokens->current();
+        $this->tokens->next();
+        assert($this->tokens->current() instanceof OpenCurlyBracketToken);
 
-                    $node->addCases($caseToken->getValue());
+        while (!($currentToken = $this->tokens->next()) instanceof CloseCurlyBracketToken) {
+            if ($node instanceof Enum_) {
+                $node->addCases(case: $currentToken->getValue());
+            }
+            if ($node instanceof Class_ || $node instanceof AbstractClass_ || $node instanceof Interface_) {
+                if (!$currentToken instanceof VisibilityToken) {
+                    // Because the property type is not supported.
+                    continue;
                 }
-                if ($node instanceof Class_ || $node instanceof AbstractClass_ || $node instanceof Interface_) {
-                    if (!$this->tokens->current() instanceof VisibilityToken) {
-                        continue;
-                    }
-                    $visibilityToken = $this->tokens->current() instanceof VisibilityToken
-                        ? $this->tokens->current()
-                        : $this->tokens->nextVisibilityToken();
+                $propertyNameToken = $this->tokens->nextElementValueToken();
 
-                    $propertyNameToken = $this->tokens->nextElementValueToken();
-
-                    $node->addProperty(new Property($propertyNameToken->getValue(), (string)$visibilityToken));
-                }
+                $node->addProperty(new Property(
+                    name: $propertyNameToken->getValue(),
+                    visibility: (string) $currentToken
+                ));
             }
         }
     }
