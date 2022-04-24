@@ -152,7 +152,11 @@ class Parser
                     $caseToken = $this->tokens->current();
 
                     $node->addCases($caseToken->getValue());
-                } else {
+                }
+                if ($node instanceof Class_ || $node instanceof AbstractClass_ || $node instanceof Interface_) {
+                    if (!$this->tokens->current() instanceof VisibilityToken) {
+                        continue;
+                    }
                     $visibilityToken = $this->tokens->current() instanceof VisibilityToken
                         ? $this->tokens->current()
                         : $this->tokens->nextVisibilityToken();

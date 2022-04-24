@@ -6,7 +6,7 @@ package Lexer {
         class LeftArrowTokenizer extends ArrowTokenizer {
             + publicProperty : array
             # protectedProperty : string
-            - privateProperty
+            - privateProperty : string
         }
     }
     package Lexer/CurlyBracket {
