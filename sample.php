@@ -22,7 +22,10 @@ foreach ($ast->toDtos() as $definition) {
         }
     } else {
         foreach ($definition->getProperties() as $property) {
-            echo "property name: " . $property->getName() . " , visibility:  " . $property->getVisibility() . "\n";
+            $propertyResult = "property name: " . $property->getName();
+            $propertyResult .= " , visibility:  " . $property->getVisibility();
+            $propertyResult .= " , type:  " . $property->getType();
+            echo $propertyResult . "\n";
         }
     }
 }
