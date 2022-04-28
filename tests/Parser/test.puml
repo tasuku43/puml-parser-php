@@ -5,7 +5,7 @@ package Lexer {
         abstract class ArrowTokenizer implements Tokenizeable
         class LeftArrowTokenizer extends ArrowTokenizer {
             + publicProperty : array
-            # protectedProperty : string
+            # protectedProperty
             - privateProperty : string
         }
     }
