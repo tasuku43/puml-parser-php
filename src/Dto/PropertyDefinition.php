@@ -5,7 +5,7 @@ namespace PumlParser\Dto;
 
 class PropertyDefinition
 {
-    public function __construct(private string $name, private string $visibility)
+    public function __construct(private string $name, private string $visibility, private string $type)
     {
     }
 
@@ -17,5 +17,10 @@ class PropertyDefinition
     public function getVisibility(): string
     {
         return $this->visibility;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 }
