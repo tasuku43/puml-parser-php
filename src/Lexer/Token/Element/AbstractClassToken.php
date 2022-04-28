@@ -3,12 +3,7 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\Element;
 
-class AbstractClassToken implements ElementToken
+class AbstractClassToken extends ClassRelatedToken
 {
     public const SYMBOL = 'abstract class';
-
-    public function getValue(): string
-    {
-        return self::SYMBOL;
-    }
 }

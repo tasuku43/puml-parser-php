@@ -9,4 +9,13 @@ use PumlParser\Lexer\Token\TokenSupport;
 class ElementValueToken implements Token
 {
     use TokenSupport;
+
+    public function __construct(private string $value)
+    {
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 }

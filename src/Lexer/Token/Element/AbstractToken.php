@@ -9,12 +9,7 @@ namespace PumlParser\Lexer\Token\Element;
  * Class AbstractToken
  * @package PumlParser\Lexer\Token\Element
  */
-class AbstractToken implements ElementToken
+class AbstractToken  extends ClassRelatedToken
 {
     public const SYMBOL = 'abstract';
-
-    public function getValue(): string
-    {
-        return AbstractClassToken::SYMBOL;
-    }
 }

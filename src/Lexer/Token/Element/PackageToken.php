@@ -3,12 +3,7 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\Element;
 
-class PackageToken implements ElementToken
+class PackageToken extends ClassRelatedToken
 {
     public const SYMBOL = 'package';
-
-    public function getValue(): string
-    {
-        return self::SYMBOL;
-    }
 }

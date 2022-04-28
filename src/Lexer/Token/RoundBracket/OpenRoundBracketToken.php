@@ -3,17 +3,14 @@ declare(strict_types=1);
 
 namespace PumlParser\Lexer\Token\RoundBracket;
 
+use PumlParser\Lexer\Token\TokenSupport;
+
 class OpenRoundBracketToken extends RoundBracketToken
 {
-    private string $value;
-
-    public function __construct()
-    {
-        $this->value = self::CloseRoundBracket_;
-    }
+    use TokenSupport;
 
     public function getValue(): string
     {
-        return $this->value;
+        return self::CloseRoundBracket_;
     }
 }

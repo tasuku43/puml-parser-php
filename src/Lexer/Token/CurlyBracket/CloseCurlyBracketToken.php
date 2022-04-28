@@ -6,6 +6,4 @@ namespace PumlParser\Lexer\Token\CurlyBracket;
 class CloseCurlyBracketToken extends CurlyBracketToken
 {
     public const SYMBOL = '}';
-
-    protected string $value = self::SYMBOL;
 }
