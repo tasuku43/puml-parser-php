@@ -5,12 +5,11 @@ namespace PumlParser\Lexer\Token;
 
 trait TokenSupport
 {
-    public function __construct(protected string $value)
-    {
-    }
+    abstract public function getValue(): string;
 
-    public function getValue(): string
+    public function equals(Token $token): bool
     {
-        return $this->value;
+        return get_class($this) === get_class($token)
+            && $this->getValue() === $token->getValue();
     }
 }

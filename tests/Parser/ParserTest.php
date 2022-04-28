@@ -51,16 +51,19 @@ class ParserTest extends TestCase
                     'Package' => 'Lexer/Arrow',
                     'Propaties' => [
                         [
-                            'name' => 'publicProperty : array',
+                            'name' => 'publicProperty',
                             'visibility' => 'public',
+                            'type' => 'array'
                         ],
                         [
-                            'name' => 'protectedProperty : string',
+                            'name' => 'protectedProperty',
                             'visibility' => 'protected',
+                            'type' => ''
                         ],
                         [
-                            'name' => 'privateProperty : string',
+                            'name' => 'privateProperty',
                             'visibility' => 'private',
+                            'type' => 'string'
                         ],
                     ],
                     'Parents' => [

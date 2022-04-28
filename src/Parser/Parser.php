@@ -153,23 +153,26 @@ class Parser
 
         while (!($currentToken = $this->tokens->next()) instanceof CloseCurlyBracketToken) {
             if ($node instanceof Enum_) {
+                assert($currentToken instanceof ElementValueToken);
+
                 $node->addCases(case: $currentToken->getValue());
             }
             if ($node instanceof Class_ || $node instanceof AbstractClass_ || $node instanceof Interface_) {
-                if (!$currentToken instanceof VisibilityToken) {
-                    // Because the property type is not supported.
-                    continue;
-                }
+                assert($currentToken instanceof VisibilityToken);
 
-                $propertyNameValues = [$this->tokens->nextElementValueToken()->getValue()];
+                $propertyNameValue = $this->tokens->nextElementValueToken()->getValue();
 
-                while ($this->tokens->getNextToken() instanceof ElementValueToken) {
-                    $propertyNameValues[] = $this->tokens->nextElementValueToken()->getValue();
+                if ($this->tokens->getNextToken()->equals(new ElementValueToken(':'))) {
+                    $this->tokens->next();
+                    $propertyTypeValue = $this->tokens->next()->getValue();
+                } else {
+                    $propertyTypeValue = '';
                 }
 
                 $node->addProperty(new Property(
-                    name: implode(' ', $propertyNameValues),
-                    visibility: (string) $currentToken
+                    name: $propertyNameValue,
+                    visibility: (string) $currentToken,
+                    type: $propertyTypeValue
                 ));
             }
         }

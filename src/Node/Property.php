@@ -7,7 +7,11 @@ use PumlParser\Dto\PropertyDefinition;
 
 class Property
 {
-    public function __construct(private string $name, private string $visibility)
+    public function __construct(
+        private string $name,
+        private string $visibility,
+        private string $type = '',
+    )
     {
     }
 
@@ -16,6 +20,7 @@ class Property
         return [
             'name' => $this->name,
             'visibility' => $this->visibility,
+            'type' => $this->type,
         ];
     }
 
@@ -24,6 +29,7 @@ class Property
         return new PropertyDefinition(
             $this->name,
             $this->visibility,
+            $this->type
         );
     }
 }

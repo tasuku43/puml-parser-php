@@ -1,12 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace PumlParser\Lexer\Token\CurlyBracket;
+namespace PumlParser\Lexer\Token\Element;
 
-use PumlParser\Lexer\Token\Token;
 use PumlParser\Lexer\Token\TokenSupport;
 
-abstract class CurlyBracketToken implements Token
+abstract class ClassRelatedToken implements ElementToken
 {
     use TokenSupport;
 
