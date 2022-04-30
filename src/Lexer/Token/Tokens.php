@@ -4,9 +4,8 @@ declare(strict_types=1);
 namespace PumlParser\Lexer\Token;
 
 use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
-use PumlParser\Lexer\Token\Visibility\VisibilityToken;
 
-class Tokens implements \Iterator
+class Tokens
 {
     /**
      * @var Token[]
@@ -73,19 +72,5 @@ class Tokens implements \Iterator
         $this->values[] = $token;
 
         return $this;
-    }
-
-    public function key(): int
-    {
-        return $this->position;
-    }
-
-    public function valid(): bool
-    {
-        return isset($this->values[$this->position]);
-    }
-    public function rewind(): void
-    {
-        $this->position = 0;
     }
 }
