@@ -43,15 +43,6 @@ class Tokens
         return $token;
     }
 
-    public function nextVisibilityToken(): VisibilityToken
-    {
-        $token = $this->next(VisibilityToken::class);
-
-        assert($token instanceof VisibilityToken);
-
-        return $token;
-    }
-
     public function getPrevToken(int $backStepNum = 1): Token
     {
         return $this->values[$this->position - $backStepNum];

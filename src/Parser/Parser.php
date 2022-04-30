@@ -133,18 +133,18 @@ class Parser
 
         $this->nodes->add($node);
 
-        if ($this->tokens->nextTokenTypeIs(ExtendsToken::class)) {
+        if ($this->tokens->getNextToken() instanceof ExtendsToken) {
             $parentNameToken = $this->tokens->nextElementValueToken();
 
             $this->parseExtends($nameToken, $parentNameToken, $package);
         }
-        if ($this->tokens->nextTokenTypeIs(ImplementsToken::class)) {
+        if ($this->tokens->getNextToken() instanceof ImplementsToken) {
             $parentNameToken = $this->tokens->nextElementValueToken();
 
             $this->parseImplements($nameToken, $parentNameToken, $package);
         }
 
-        if (!$this->tokens->nextTokenTypeIs(OpenCurlyBracketToken::class)) {
+        if (!$this->tokens->getNextToken() instanceof OpenCurlyBracketToken) {
             return;
         }
 
