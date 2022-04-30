@@ -4,9 +4,8 @@ declare(strict_types=1);
 namespace PumlParser\Lexer\Token;
 
 use PumlParser\Lexer\Token\ElementValue\ElementValueToken;
-use PumlParser\Lexer\Token\Visibility\VisibilityToken;
 
-class Tokens implements \Iterator
+class Tokens
 {
     /**
      * @var Token[]
@@ -20,35 +19,26 @@ class Tokens implements \Iterator
         return $this->values[$this->position] ?? null;
     }
 
-    public function next(string $tokenType = ''): ?Token
+    public function next(string $tokenType = ''): self
     {
         if ($tokenType === '') {
             $this->position++;
 
-            return $this->current();
+            return $this;
         }
 
         do {
             $this->position++;
         } while (!$this->current() instanceof $tokenType or $this->current() === null);
 
-        return $this->current();
+        return $this;
     }
 
     public function nextElementValueToken(): ElementValueToken
     {
-        $token = $this->next(ElementValueToken::class);
+        $token = $this->next(ElementValueToken::class)->current();
 
         assert($token instanceof ElementValueToken);
-
-        return $token;
-    }
-
-    public function nextVisibilityToken(): VisibilityToken
-    {
-        $token = $this->next(VisibilityToken::class);
-
-        assert($token instanceof VisibilityToken);
 
         return $token;
     }
@@ -63,29 +53,10 @@ class Tokens implements \Iterator
         return $this->values[$this->position + $nextStepNum];
     }
 
-    public function nextTokenTypeIs(string $tokenType): bool
-    {
-        return $this->getNextToken()::class === $tokenType;
-    }
-
     public function add(Token $token): self
     {
         $this->values[] = $token;
 
         return $this;
-    }
-
-    public function key(): int
-    {
-        return $this->position;
-    }
-
-    public function valid(): bool
-    {
-        return isset($this->values[$this->position]);
-    }
-    public function rewind(): void
-    {
-        $this->position = 0;
     }
 }

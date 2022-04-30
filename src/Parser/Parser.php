@@ -49,7 +49,7 @@ class Parser
     {
         $this->tokens = $this->lexer->startLexing($pumlFilePath);
 
-        while (!$this->tokens->next() instanceof EndToken) {
+        while (!$this->tokens->next()->current() instanceof EndToken) {
             $this->parseToken($this->tokens->current());
         }
 
@@ -104,7 +104,7 @@ class Parser
         $depth   = 0;
 
         do {
-            $token = $this->tokens->next();
+            $token = $this->tokens->next()->current();
 
             if ($token instanceof OpenCurlyBracketToken) {
                 $depth++;
@@ -133,25 +133,25 @@ class Parser
 
         $this->nodes->add($node);
 
-        if ($this->tokens->nextTokenTypeIs(ExtendsToken::class)) {
+        if ($this->tokens->getNextToken() instanceof ExtendsToken) {
             $parentNameToken = $this->tokens->nextElementValueToken();
 
             $this->parseExtends($nameToken, $parentNameToken, $package);
         }
-        if ($this->tokens->nextTokenTypeIs(ImplementsToken::class)) {
+        if ($this->tokens->getNextToken() instanceof ImplementsToken) {
             $parentNameToken = $this->tokens->nextElementValueToken();
 
             $this->parseImplements($nameToken, $parentNameToken, $package);
         }
 
-        if (!$this->tokens->nextTokenTypeIs(OpenCurlyBracketToken::class)) {
+        if (!$this->tokens->getNextToken() instanceof OpenCurlyBracketToken) {
             return;
         }
 
         $this->tokens->next();
         assert($this->tokens->current() instanceof OpenCurlyBracketToken);
 
-        while (!($currentToken = $this->tokens->next()) instanceof CloseCurlyBracketToken) {
+        while (!($currentToken = $this->tokens->next()->current()) instanceof CloseCurlyBracketToken) {
             if ($node instanceof Enum_) {
                 assert($currentToken instanceof ElementValueToken);
 
@@ -163,8 +163,7 @@ class Parser
                 $propertyNameValue = $this->tokens->nextElementValueToken()->getValue();
 
                 if ($this->tokens->getNextToken()->equals(new ElementValueToken(':'))) {
-                    $this->tokens->next();
-                    $propertyTypeValue = $this->tokens->next()->getValue();
+                    $propertyTypeValue = $this->tokens->next()->next()->current()->getValue();
                 } else {
                     $propertyTypeValue = '';
                 }
