@@ -17,21 +17,21 @@ use PumlParser\Lexer\Token\Token;
 
 class PumlTokenizer
 {
-    public function parseForward(string $contents): Token
-    {
-        foreach ($this->tokenizers() as $tokenizer) {
-            if ($tokenizer->parseable($contents)) return $tokenizer->parseForward($contents);
-        }
+    /**
+     * @var Tokenizeable[]
+     */
+    private array                 $tokenizers;
+    private ElementValueTokenizer $elementValueTokenizer;
 
-        return (new ElementValueTokenizer())->parseForward($contents);
+    private function __construct(Tokenizeable ...$tokenizers)
+    {
+        $this->tokenizers            = $tokenizers;
+        $this->elementValueTokenizer = new ElementValueTokenizer();
     }
 
-    /**
-     * @return Tokenizeable[]
-     */
-    private function tokenizers(): array
+    public static function newInstance(): self
     {
-        return [
+        return new self(
             new StartTokenizer(),
             new ElementTokenizer(),
             new ArrowTokenizer(),
@@ -41,6 +41,15 @@ class PumlTokenizer
             new ImplementsTokenizer(),
             new VisibilityTokenizer(),
             new EndTokenizer(),
-        ];
+        );
+    }
+
+    public function parseForward(string $contents): Token
+    {
+        foreach ($this->tokenizers as $tokenizer) {
+            if ($tokenizer->parseable($contents)) return $tokenizer->parseForward($contents);
+        }
+
+        return $this->elementValueTokenizer->parseForward($contents);
     }
 }

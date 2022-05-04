@@ -15,7 +15,7 @@ class PumlTokenizerTest extends TestCase
     public function testParseForward(string $contents, string $expected_className): void
     {
 
-        $tokenizer = new PumlTokenizer();
+        $tokenizer = PumlTokenizer::newInstance();
         $token     = $tokenizer->parseForward($contents);
 
         self::assertInstanceOf($expected_className, $token);
@@ -86,7 +86,7 @@ class PumlTokenizerTest extends TestCase
     public function testParseForwardNotArrow(string $contents, string $non_expected_className): void
     {
 
-        $tokenizer = new PumlTokenizer();
+        $tokenizer = PumlTokenizer::newInstance();
         $token     = $tokenizer->parseForward($contents);
 
         self::assertNotInstanceOf($non_expected_className, $token);
