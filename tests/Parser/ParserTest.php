@@ -12,7 +12,7 @@ class ParserTest extends TestCase
 {
     public function testParse(): void
     {
-        $lexer  = new Lexer(new PumlTokenizer());
+        $lexer  = new Lexer(PumlTokenizer::newInstance());
         $parser = new Parser($lexer);
         $ast    = $parser->parse(__DIR__ . '/test.puml');
 
